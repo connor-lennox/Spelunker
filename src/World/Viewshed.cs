@@ -34,7 +34,7 @@ public class Viewshed
 		var line = new ShadowLine();
 		var fullShadow = false;
 
-		for (var row = 1;; row++)
+		for (var row = 0;; row++)
 		{
 			var pos = center + TransformOctet(row, 0, octant);
 			if (!_world.PointInBounds(pos)) break;

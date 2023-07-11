@@ -18,12 +18,13 @@ public class World
 		Width = width;
 		Height = height;
 		_tiles = tiles;
-
-		_playerViewshed = new Viewshed(this);
 		
 		_player = new Actor(ActorType.Player);
 		AddObject(_player, playerSpawn);
 		AddObject(new Actor(ActorType.Bandit), (16, 11));
+		
+		_playerViewshed = new Viewshed(this);
+		_playerViewshed.CalculateFrom(_player.Position);
 	}
 
 	private void AddObject(GameObject gameObject, Point position)
@@ -45,8 +46,15 @@ public class World
 		{
 			for (var y = 0; y < Height; y++)
 			{
-				if (_playerViewshed[x, y] == VisibilityStatus.Visible || _playerViewshed[x, y] == VisibilityStatus.Seen)
-					_tiles[x, y].Glyph.CopyAppearanceTo(surface.Surface[x, y]);
+				switch (_playerViewshed[x, y])
+				{
+					case VisibilityStatus.Visible:
+						_tiles[x, y].VisibleGlyph.CopyAppearanceTo(surface.Surface[x, y]);
+						break;
+					case VisibilityStatus.Seen:
+						_tiles[x, y].SeenGlyph.CopyAppearanceTo(surface.Surface[x, y]);
+						break;
+				}
 			}
 		}
 	}
@@ -55,7 +63,10 @@ public class World
 	{
 		foreach (var gameObject in _objects)
 		{
-			gameObject.Glyph.CopyAppearanceTo(surface.Surface[gameObject.Position]);
+			if (_playerViewshed[gameObject.Position] == VisibilityStatus.Visible)
+			{
+				gameObject.Glyph.CopyAppearanceTo(surface.Surface[gameObject.Position]);
+			}
 		}
 	}
 
