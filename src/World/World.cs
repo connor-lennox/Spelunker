@@ -1,19 +1,25 @@
+using Point = SadRogue.Primitives.Point;
+
 namespace Spelunker;
 
 public class World
 {
-	private int _width;
-	private int _height;
+	public int Width { get; }
+	public int Height { get; }
 	private TileType[,] _tiles;
 	
 	private readonly List<GameObject> _objects = new();
 	private Actor _player;
 
+	private Viewshed _playerViewshed;
+
 	public World(TileType[,] tiles, int width, int height, Point playerSpawn)
 	{
-		_width = width;
-		_height = height;
+		Width = width;
+		Height = height;
 		_tiles = tiles;
+
+		_playerViewshed = new Viewshed(this);
 		
 		_player = new Actor(ActorType.Player);
 		AddObject(_player, playerSpawn);
@@ -35,11 +41,12 @@ public class World
 
 	private void RenderMap(ISurfaceSettable surface)
 	{
-		for (var x = 0; x < _width; x++)
+		for (var x = 0; x < Width; x++)
 		{
-			for (var y = 0; y < _height; y++)
+			for (var y = 0; y < Height; y++)
 			{
-				_tiles[x, y].Glyph.CopyAppearanceTo(surface.Surface[x, y]);
+				if (_playerViewshed[x, y] == VisibilityStatus.Visible || _playerViewshed[x, y] == VisibilityStatus.Seen)
+					_tiles[x, y].Glyph.CopyAppearanceTo(surface.Surface[x, y]);
 			}
 		}
 	}
@@ -52,13 +59,24 @@ public class World
 		}
 	}
 
+	public bool PointInBounds(Point point)
+	{
+		return point.X >= 0 && point.X < Width && point.Y >= 0 && point.Y < Height;
+	}
+	
 	public bool TilePassable(Point point)
 	{
 		return _tiles[point.X, point.Y].Passable;
 	}
 
+	public bool TileTransparent(Point point)
+	{
+		return _tiles[point.X, point.Y].Transparent;
+	}
+
 	public void MovePlayer(int dx, int dy)
 	{
 		_player.ExecuteAction(new MoveAction(dx, dy));
+		_playerViewshed.CalculateFrom(_player.Position);
 	}
 }
