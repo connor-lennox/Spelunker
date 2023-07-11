@@ -16,10 +16,11 @@ public class MoveAction : Action
 	public override bool Execute(Actor instigator)
 	{
 		Debug.Assert(instigator.World != null, "instigator.World != null");
-		if (!instigator.World.TilePassable(instigator.X + _dx, instigator.Y + _dy)) return false;
-		
-		instigator.X += _dx;
-		instigator.Y += _dy;
+
+		var newPos = instigator.Position + (_dx, _dy);
+		if (!instigator.World.TilePassable(newPos)) return false;
+
+		instigator.Position = newPos;
 
 		return true;
 

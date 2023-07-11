@@ -51,7 +51,7 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 			TunnelBetween(tiles, rooms[i], rooms[i+1]);
 		}
 
-		return new World(tiles, width, height);
+		return new World(tiles, width, height, rooms[0].Center());
 	}
 
 	private Room RandomRoom(int dungeonWidth, int dungeonHeight)

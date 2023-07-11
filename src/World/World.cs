@@ -9,21 +9,20 @@ public class World
 	private readonly List<GameObject> _objects = new();
 	private Actor _player;
 
-	public World(TileType[,] tiles, int width, int height)
+	public World(TileType[,] tiles, int width, int height, Point playerSpawn)
 	{
 		_width = width;
 		_height = height;
 		_tiles = tiles;
 		
 		_player = new Actor(ActorType.Player);
-		AddObject(_player, 10, 10);
-		AddObject(new Actor(ActorType.Bandit), 16, 11);
+		AddObject(_player, playerSpawn);
+		AddObject(new Actor(ActorType.Bandit), (16, 11));
 	}
 
-	private void AddObject(GameObject gameObject, int x, int y)
+	private void AddObject(GameObject gameObject, Point position)
 	{
-		gameObject.X = x;
-		gameObject.Y = y;
+		gameObject.Position = position;
 		gameObject.World = this;
 		_objects.Add(gameObject);
 	}
@@ -49,13 +48,13 @@ public class World
 	{
 		foreach (var gameObject in _objects)
 		{
-			gameObject.Glyph.CopyAppearanceTo(surface.Surface[gameObject.X, gameObject.Y]);
+			gameObject.Glyph.CopyAppearanceTo(surface.Surface[gameObject.Position]);
 		}
 	}
 
-	public bool TilePassable(int x, int y)
+	public bool TilePassable(Point point)
 	{
-		return _tiles[x, y].Passable;
+		return _tiles[point.X, point.Y].Passable;
 	}
 
 	public void MovePlayer(int dx, int dy)
