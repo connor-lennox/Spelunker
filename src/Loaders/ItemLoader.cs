@@ -2,24 +2,26 @@ namespace Spelunker;
 
 /// <summary>
 /// Item Format:
-/// Name, Glyph, Color, TargetingMode, Range, Effects
+/// Name, Glyph, Color, Value, TargetingMode, Range, Effects
 /// </summary>
 public class ItemLoader : BaseLoader<ItemType>
 {
-	protected override int ExpectedColumns => 6;
+	protected override int ExpectedColumns => 7;
 
 	protected override ItemType Translate(string[] entry)
 	{
 		var name = entry[0];
 		var glyph = entry[1][0];
 		var color = Colors.FromName(entry[2]);
-		var targetingMode = TargetingModes.GetMode(entry[3]);
-		var range = int.Parse(entry[4]);
-		var effects = ParseEffects(entry[5]);
+		var value = int.Parse(entry[3]);
+		var targetingMode = TargetingModes.GetMode(entry[4]);
+		var range = int.Parse(entry[5]);
+		var effects = ParseEffects(entry[6]);
 
 		return new ItemType(
 			name, 
-			new ColoredGlyph(color, Color.TransparentBlack, glyph), 
+			new ColoredGlyph(color, Color.TransparentBlack, glyph),
+			value,
 			targetingMode, 
 			range, 
 			effects
@@ -50,6 +52,9 @@ public class ItemLoader : BaseLoader<ItemType>
 				case "EXPLODE":
 					// EXPLODE <damage> <radius>
 					effects.Add(new ExplodeItemEffect(int.Parse(tokens[idx++]), int.Parse(tokens[idx++])));
+					break;
+				case "ADMIRE":
+					effects.Add(new AdmireItemEffect());
 					break;
 				default:
 					throw new ArgumentException($"unknown item effect verb {effectId}");

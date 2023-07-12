@@ -24,15 +24,18 @@ public class ItemType
 	public readonly string Name;
 	public readonly ColoredGlyph Glyph;
 
+	public readonly int Value;
+	
 	public readonly TargetingMode TargetingMode;
 	public readonly int Range;
 	
 	public readonly List<ItemEffect> UseEffects;
 
-	public ItemType(string name, ColoredGlyph glyph, TargetingMode targetingMode, int range, List<ItemEffect> useEffects)
+	public ItemType(string name, ColoredGlyph glyph, int value, TargetingMode targetingMode, int range, List<ItemEffect> useEffects)
 	{
 		Name = name;
 		Glyph = glyph;
+		Value = value;
 		TargetingMode = targetingMode;
 		Range = range;
 		UseEffects = useEffects;

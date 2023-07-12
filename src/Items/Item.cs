@@ -19,7 +19,7 @@ public class Item
 	{
 		foreach (var effect in ItemType.UseEffects)
 		{
-			effect.Execute(instigator, target);
+			effect.Execute(instigator, this, target);
 		}
 	}
 }

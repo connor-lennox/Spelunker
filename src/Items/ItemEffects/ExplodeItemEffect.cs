@@ -11,7 +11,7 @@ public class ExplodeItemEffect : ItemEffect
 		_damage = damage;
 	}
 
-	public override bool Execute(Actor instigator, Point target)
+	public override bool Execute(Actor instigator, Item item, Point target)
 	{
 		if (instigator.World == null) return false;
 		

@@ -9,7 +9,7 @@ public class DamageItemEffect : ItemEffect
 		_damage = damage;
 	}
 
-	public override bool Execute(Actor instigator, Point target)
+	public override bool Execute(Actor instigator, Item item, Point target)
 	{
 		if (instigator.World?.ObjectAtPoint(target) is not Actor targetActor) return false;
 		
