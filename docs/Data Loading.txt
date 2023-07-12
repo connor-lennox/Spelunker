@@ -1,0 +1,8 @@
+All data files use a standardized data format which is basically a header-less CSV with semicolon as the delimiter 
+instead of commas. The purpose of this is to standardize the Loading pipeline so that each file type can pull from a 
+common set of utilities and then interpret them as they will.
+
+For example, the `items` dataset will have different columns than the `monsters` dataset, but both will be able to 
+be parsed by the same BaseLoader class as this will have the common code for managing the data reading. How these
+read fields are translated into actual ItemType and ActorType definitions is an implementation detail of the downstream
+loader.

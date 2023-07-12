@@ -70,6 +70,27 @@ public class World
 		}
 	}
 
+	public GameObject? ObjectAtPoint(Point point)
+	{
+		// TODO: Optimize this
+		foreach (var obj in _objects)
+		{
+			if (obj.Position == point)
+			{
+				return obj;
+			}
+		}
+
+		return null;
+	}
+
+	public List<GameObject> ObjectsInRange(Point point, int radiusSq)
+	{
+		return _objects.Where(obj =>
+			(point.X - obj.Position.X) * (point.X - obj.Position.X) +
+			(point.Y - obj.Position.Y) * (point.Y - obj.Position.Y) <= radiusSq).ToList();
+	}
+	
 	public bool PointInBounds(Point point)
 	{
 		return point.X >= 0 && point.X < Width && point.Y >= 0 && point.Y < Height;

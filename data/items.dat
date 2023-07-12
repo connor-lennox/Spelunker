@@ -1,0 +1,5 @@
+// Name         ; Glyph ; Color             ; TargetingMode ; Range ; Effects
+Rock            ; r     ; LightSteelBlue    ; TILE          ; 6     ; DAMAGE 10
+Healing Potion  ; !     ; LightSalmon       ; SELF          ; 0     ; HEAL 30
+Ruby Amulet     ; R     ; OrangeRed         ; TILE          ; 5     ; EXPLODE 15 3
+

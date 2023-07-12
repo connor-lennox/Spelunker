@@ -20,4 +20,10 @@
     <PackageReference Include="SadConsole.Host.MonoGame" Version="10.0.0-alpha1-debug" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="data\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
