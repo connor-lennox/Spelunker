@@ -2,11 +2,11 @@ namespace Spelunker;
 
 /// <summary>
 /// Item Format:
-/// Name, Glyph, Color, Value, TargetingMode, Range, Effects
+/// Name, Glyph, Color, Value, TargetingMode, Range, Effects, Tags
 /// </summary>
 public class ItemLoader : BaseLoader<ItemType>
 {
-	protected override int ExpectedColumns => 7;
+	protected override int ExpectedColumns => 8;
 
 	protected override ItemType Translate(string[] entry)
 	{
@@ -17,6 +17,7 @@ public class ItemLoader : BaseLoader<ItemType>
 		var targetingMode = TargetingModes.GetMode(entry[4]);
 		var range = int.Parse(entry[5]);
 		var effects = ParseEffects(entry[6]);
+		var tags = ParseTags(entry[7]);
 
 		return new ItemType(
 			name, 
@@ -24,7 +25,8 @@ public class ItemLoader : BaseLoader<ItemType>
 			value,
 			targetingMode, 
 			range, 
-			effects
+			effects,
+			tags
 		);
 	}
 
@@ -62,5 +64,29 @@ public class ItemLoader : BaseLoader<ItemType>
 		}
 
 		return effects;
+	}
+
+	private static List<ItemTag> ParseTags(string tagString)
+	{
+		var tags = new List<ItemTag>();
+		foreach (var tag in tagString.Split(' '))
+		{
+			if (tag.Length > 0)
+			{
+				switch (tag.ToUpper())
+				{
+					case "FRAGILE":
+						tags.Add(ItemTag.GetTag<FragileItemTag>());
+						break;
+					case "AUTOUSE":
+						tags.Add(ItemTag.GetTag<AutouseItemTag>());
+						break;
+					default:
+						throw new ArgumentException($"unknown item tag {tag}");
+				}
+			}
+		}
+
+		return tags;
 	}
 }

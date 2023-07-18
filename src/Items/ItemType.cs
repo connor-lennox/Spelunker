@@ -30,8 +30,9 @@ public class ItemType
 	public readonly int Range;
 	
 	public readonly List<ItemEffect> UseEffects;
+	public readonly List<ItemTag> ItemTags;
 
-	public ItemType(string name, ColoredGlyph glyph, int value, TargetingMode targetingMode, int range, List<ItemEffect> useEffects)
+	public ItemType(string name, ColoredGlyph glyph, int value, TargetingMode targetingMode, int range, List<ItemEffect> useEffects, List<ItemTag> tags)
 	{
 		Name = name;
 		Glyph = glyph;
@@ -39,5 +40,6 @@ public class ItemType
 		TargetingMode = targetingMode;
 		Range = range;
 		UseEffects = useEffects;
+		ItemTags = tags;
 	}
 }
