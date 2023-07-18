@@ -1,0 +1,4 @@
+// Name         ; Glyph ; Color             ; Health    ; InventorySize ; SpawnWeight
+Player          ; @     ; Yellow            ; 30        ; 10            ; 0
+Bandit          ; b     ; White             ; 10        ; 1             ; 8
+Troll           ; T     ; Green             ; 16        ; 1             ; 2

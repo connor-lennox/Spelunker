@@ -2,7 +2,7 @@ namespace Spelunker;
 
 /// <summary>
 /// Item Format:
-/// Name, Glyph, Color, Value, TargetingMode, Range, Effects, Tags
+/// Name, Glyph, Color, MeleeDamage, Value, TargetingMode, Range, Effects, Tags
 /// </summary>
 public class ItemLoader : BaseLoader<ItemType>
 {

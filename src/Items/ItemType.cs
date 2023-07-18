@@ -21,6 +21,16 @@ public static class TargetingModes
 
 public class ItemType
 {
+	public static void RegisterItems(IEnumerable<ItemType> itemTypes)
+	{
+		foreach (var i in itemTypes)
+		{
+			ItemTypes[i.Name] = i;
+		}
+	}
+	private static readonly Dictionary<string, ItemType> ItemTypes = new();
+	public static ItemType Get(string name) => ItemTypes[name];
+	
 	public readonly string Name;
 	public readonly ColoredGlyph Glyph;
 

@@ -19,9 +19,8 @@ public class World
 		Height = height;
 		_tiles = tiles;
 		
-		_player = new Actor(ActorType.Player);
+		_player = new Actor(ActorType.Get("Player"));
 		AddObject(_player, playerSpawn);
-		AddObject(new Actor(ActorType.Bandit), (16, 11));
 		
 		_playerViewshed = new Viewshed(this);
 		_playerViewshed.CalculateFrom(_player.Position);
