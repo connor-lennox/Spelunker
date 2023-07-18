@@ -2,7 +2,7 @@ namespace Spelunker;
 
 public abstract class WorldGenerationStrategy
 {
-	protected readonly Random Random = new Random();
+	protected readonly Random Random = new();
 	
 	public abstract World BuildWorld(int width, int height);
 }
@@ -51,7 +51,14 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 			TunnelBetween(tiles, rooms[i], rooms[i+1]);
 		}
 
-		return new World(tiles, width, height, rooms[0].Center());
+		var world = new World(tiles, width, height, rooms[0].Center());
+
+		foreach (var room in rooms)
+		{
+			SpawnEnemies(world, room);
+		}
+		
+		return world;
 	}
 
 	private Room RandomRoom(int dungeonWidth, int dungeonHeight)
@@ -69,6 +76,20 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 		foreach (var (x, y) in room.InternalPoints())
 		{
 			tiles[x, y] = TileType.Floor;
+		}
+	}
+
+	private void SpawnEnemies(World world, Room room)
+	{
+		var numEnemies = Random.Next(3);
+		var candidatePoints = room.InternalPoints().ToArray();
+		for (var i = 0; i < numEnemies; i++)
+		{
+			var p = candidatePoints[Random.Next(candidatePoints.Length)];
+			if (world.ObjectAtPoint(p) == null)
+			{
+				world.AddObject(new Actor(ActorType.GetRandom()), p);
+			}
 		}
 	}
 

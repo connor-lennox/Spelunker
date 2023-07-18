@@ -26,7 +26,7 @@ public class World
 		_playerViewshed.CalculateFrom(_player.Position);
 	}
 
-	private void AddObject(GameObject gameObject, Point position)
+	public void AddObject(GameObject gameObject, Point position)
 	{
 		gameObject.Position = position;
 		gameObject.World = this;
