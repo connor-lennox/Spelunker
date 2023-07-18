@@ -7,10 +7,13 @@ public class Actor : GameObject
 	private int _health;
 
 	public Inventory Inventory;
-	
+
+	public override bool Blocking => true;
+
 	public Actor(ActorType actorType)
 	{
 		_actorType = actorType;
+		_health = actorType.MaxHealth;
 		Inventory = new Inventory(actorType.InventorySize);
 	}
 

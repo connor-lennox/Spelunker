@@ -97,7 +97,8 @@ public class World
 	
 	public bool TilePassable(Point point)
 	{
-		return _tiles[point.X, point.Y].Passable;
+		var objBlocking = ObjectAtPoint(point) != null && ObjectAtPoint(point)!.Blocking;
+		return _tiles[point.X, point.Y].Passable && !objBlocking;
 	}
 
 	public bool TileTransparent(Point point)

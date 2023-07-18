@@ -6,4 +6,6 @@ public abstract class GameObject
 	public World? World { get; set; }
 
 	public abstract ColoredGlyph Glyph { get; }
+
+	public virtual bool Blocking => false;
 }
