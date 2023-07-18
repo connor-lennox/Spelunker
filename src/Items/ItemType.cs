@@ -24,6 +24,7 @@ public class ItemType
 	public readonly string Name;
 	public readonly ColoredGlyph Glyph;
 
+	public readonly int MeleeDamage;
 	public readonly int Value;
 	
 	public readonly TargetingMode TargetingMode;
@@ -32,10 +33,11 @@ public class ItemType
 	public readonly List<ItemEffect> UseEffects;
 	public readonly List<ItemTag> ItemTags;
 
-	public ItemType(string name, ColoredGlyph glyph, int value, TargetingMode targetingMode, int range, List<ItemEffect> useEffects, List<ItemTag> tags)
+	public ItemType(string name, ColoredGlyph glyph, int meleeDamage, int value, TargetingMode targetingMode, int range, List<ItemEffect> useEffects, List<ItemTag> tags)
 	{
 		Name = name;
 		Glyph = glyph;
+		MeleeDamage = meleeDamage;
 		Value = value;
 		TargetingMode = targetingMode;
 		Range = range;

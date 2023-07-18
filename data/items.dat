@@ -1,5 +1,5 @@
-// Name         ; Glyph ; Color             ; Value ; TargetingMode ; Range ; Effects       ; Tags
-Rock            ; r     ; LightSteelBlue    ; 1     ; TILE          ; 6     ; DAMAGE 10     ;
-Healing Potion  ; !     ; LightSalmon       ; 150   ; SELF          ; 0     ; HEAL 30       ; AUTOUSE FRAGILE
-Ruby Amulet     ; R     ; OrangeRed         ; 900   ; TILE          ; 5     ; EXPLODE 15 3  ;
-Gold Statue     ; S     ; Gold              ; 4000  ; SELF          ; 0     ; ADMIRE        ;
+// Name         ; Glyph ; Color             ; MeleeDamage   ; Value ; TargetingMode ; Range ; Effects       ; Tags
+Rock            ; r     ; LightSteelBlue    ; 6             ; 1     ; TILE          ; 6     ; DAMAGE 10     ;
+Healing Potion  ; !     ; LightSalmon       ; 10            ; 150   ; SELF          ; 0     ; HEAL 30       ; AUTOUSE FRAGILE
+Ruby Amulet     ; R     ; OrangeRed         ; 2             ; 900   ; TILE          ; 5     ; EXPLODE 15 3  ;
+Gold Statue     ; S     ; Gold              ; 4             ; 4000  ; SELF          ; 0     ; ADMIRE        ;
