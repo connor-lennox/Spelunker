@@ -108,7 +108,7 @@ public class World
 
 	public void MovePlayer(int dx, int dy)
 	{
-		_player.ExecuteAction(new MoveAction(dx, dy));
+		_player.MoveInDirection(dx, dy);
 		_playerViewshed.CalculateFrom(_player.Position);
 	}
 }

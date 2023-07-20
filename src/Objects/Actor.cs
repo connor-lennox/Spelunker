@@ -2,7 +2,7 @@ namespace Spelunker;
 
 public class Actor : GameObject
 {
-	private ActorType _actorType;
+	public  readonly ActorType ActorType;
 
 	private int _health;
 
@@ -12,12 +12,12 @@ public class Actor : GameObject
 
 	public Actor(ActorType actorType)
 	{
-		_actorType = actorType;
+		ActorType = actorType;
 		_health = actorType.MaxHealth;
 		Inventory = new Inventory(actorType.InventorySize);
 	}
 
-	public override ColoredGlyph Glyph => _actorType.Glyph;
+	public override ColoredGlyph Glyph => ActorType.Glyph;
 
 	public void TakeDamage(int amount)
 	{
@@ -32,5 +32,26 @@ public class Actor : GameObject
 	public bool ExecuteAction(Action action)
 	{
 		return action.Execute(this);
+	}
+
+	/// <summary>
+	/// Moves the Actor in a direction, or attacks an Actor that is in the target tile.
+	/// </summary>
+	/// <param name="dx"></param>
+	/// <param name="dy"></param>
+	/// <returns></returns>
+	public bool MoveInDirection(int dx, int dy)
+	{
+		if (ExecuteAction(new MoveAction(dx, dy)))
+		{
+			return true;
+		}
+
+		if (ExecuteAction(new AttackAction(dx, dy)))
+		{
+			return true;
+		}
+
+		return false;
 	}
 }
