@@ -88,7 +88,7 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 			var p = candidatePoints[Random.Next(candidatePoints.Length)];
 			if (world.ObjectAtPoint(p) == null)
 			{
-				world.AddObject(new Actor(ActorType.GetRandom()), p);
+				world.AddEnemy(new Actor(ActorType.GetRandom()), p);
 			}
 		}
 	}

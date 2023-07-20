@@ -11,6 +11,8 @@ public class World
 	private readonly List<GameObject> _objects = new();
 	private Actor _player;
 
+	private readonly List<Actor> _enemies = new();
+
 	private Viewshed _playerViewshed;
 
 	public World(TileType[,] tiles, int width, int height, Point playerSpawn)
@@ -31,6 +33,12 @@ public class World
 		gameObject.Position = position;
 		gameObject.World = this;
 		_objects.Add(gameObject);
+	}
+
+	public void AddEnemy(Actor enemy, Point position)
+	{
+		_enemies.Add(enemy);
+		AddObject(enemy, position);
 	}
 	
 	public void Render(ScreenSurface surface)
@@ -110,5 +118,14 @@ public class World
 	{
 		_player.MoveInDirection(dx, dy);
 		_playerViewshed.CalculateFrom(_player.Position);
+		DoEnemyTurn();
+	}
+
+	private void DoEnemyTurn()
+	{
+		foreach (var enemy in _enemies)
+		{
+			System.Console.WriteLine($"{enemy.ActorType.Name} takes their turn");
+		}
 	}
 }
