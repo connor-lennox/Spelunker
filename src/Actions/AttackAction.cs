@@ -20,8 +20,21 @@ public class AttackAction : Action
 		var targetPos = instigator.Position + (_dx, _dy);
 
 		if (instigator.World.ObjectAtPoint(targetPos) is not Actor target) return false;
+
+		var heldItem = instigator.Inventory.HeldItem;
+
+		if (heldItem != null)
+		{
+			System.Console.WriteLine($"{instigator.ActorType.Name} swings the {heldItem.Name}, striking the {target.ActorType.Name} for {heldItem.ItemType.MeleeDamage} damage!");
+			target.TakeDamage(heldItem.ItemType.MeleeDamage);
+			heldItem.OnAttack(instigator, target);
+		}
+		else
+		{
+			System.Console.WriteLine($"{instigator.ActorType.Name} punches the {target.ActorType.Name} for 1 damage!");
+			target.TakeDamage(1);
+		}
 		
-		System.Console.WriteLine($"You kick the {target.ActorType.Name}!");
 		return true;
 
 	}

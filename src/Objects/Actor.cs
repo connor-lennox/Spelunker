@@ -1,19 +1,26 @@
 namespace Spelunker;
 
+
 public class Actor : GameObject
 {
+
+	public event System.Action? OnDeath;
+	
 	public  readonly ActorType ActorType;
 
 	private int _health;
 
 	public Inventory Inventory;
 
+	public Faction Faction;
+
 	public override bool Blocking => true;
 
-	public Actor(ActorType actorType)
+	public Actor(ActorType actorType, Faction faction)
 	{
 		ActorType = actorType;
 		_health = actorType.MaxHealth;
+		Faction = faction;
 		Inventory = new Inventory(actorType.InventorySize);
 	}
 
@@ -21,12 +28,16 @@ public class Actor : GameObject
 
 	public void TakeDamage(int amount)
 	{
-		_health -= amount;
+		_health = Math.Max(_health - amount, 0);
+		if (_health == 0)
+		{
+			Death();
+		}
 	}
 
 	public void HealDamage(int amount)
 	{
-		_health += amount;
+		_health = Math.Min(_health + amount, ActorType.MaxHealth);
 	}
 	
 	public bool ExecuteAction(Action action)
@@ -53,5 +64,10 @@ public class Actor : GameObject
 		}
 
 		return false;
+	}
+
+	private void Death()
+	{
+		OnDeath?.Invoke();
 	}
 }

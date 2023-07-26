@@ -21,5 +21,34 @@ public class Item
 		{
 			effect.Execute(instigator, this, target);
 		}
+
+		foreach (var tag in ItemType.ItemTags)
+		{
+			tag.OnUse(instigator, this);
+		}
+	}
+
+	public void OnAttack(Actor instigator, Actor target)
+	{
+		foreach (var tag in ItemType.ItemTags)
+		{
+			tag.OnAttack(instigator, this, target);
+		}
+	}
+
+	public void OnHitWhileHolding(Actor holder, Actor instigator)
+	{
+		foreach (var tag in ItemType.ItemTags)
+		{
+			tag.OnHitWhileHolding(holder, this, instigator);
+		}
+	}
+
+	public void OnPickup(Actor holder)
+	{
+		foreach (var tag in ItemType.ItemTags)
+		{
+			tag.OnPickup(holder, this);
+		}
 	}
 }

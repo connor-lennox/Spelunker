@@ -10,8 +10,7 @@ public class World
 	
 	private readonly List<GameObject> _objects = new();
 	private Actor _player;
-
-	private readonly List<Actor> _enemies = new();
+	private readonly List<Actor> _actors = new();
 
 	private Viewshed _playerViewshed;
 
@@ -21,8 +20,8 @@ public class World
 		Height = height;
 		_tiles = tiles;
 		
-		_player = new Actor(ActorType.Get("Player"));
-		AddObject(_player, playerSpawn);
+		_player = new Actor(ActorType.Get("Player"), Faction.Player);
+		AddActor(_player, playerSpawn);
 		
 		_playerViewshed = new Viewshed(this);
 		_playerViewshed.CalculateFrom(_player.Position);
@@ -35,10 +34,11 @@ public class World
 		_objects.Add(gameObject);
 	}
 
-	public void AddEnemy(Actor enemy, Point position)
+	public void AddActor(Actor actor, Point position)
 	{
-		_enemies.Add(enemy);
-		AddObject(enemy, position);
+		_actors.Add(actor);
+		AddObject(actor, position);
+		actor.OnDeath += () => ActorDied(actor);
 	}
 	
 	public void Render(ScreenSurface surface)
@@ -91,9 +91,29 @@ public class World
 		return null;
 	}
 
+	public Actor? ActorAtPoint(Point point)
+	{
+		foreach (var actor in _actors)
+		{
+			if (actor.Position == point)
+			{
+				return actor;
+			}
+		}
+
+		return null;
+	}
+
 	public List<GameObject> ObjectsInRange(Point point, int radiusSq)
 	{
 		return _objects.Where(obj =>
+			(point.X - obj.Position.X) * (point.X - obj.Position.X) +
+			(point.Y - obj.Position.Y) * (point.Y - obj.Position.Y) <= radiusSq).ToList();
+	}
+	
+	public List<Actor> ActorsInRange(Point point, int radiusSq)
+	{
+		return _actors.Where(obj =>
 			(point.X - obj.Position.X) * (point.X - obj.Position.X) +
 			(point.Y - obj.Position.Y) * (point.Y - obj.Position.Y) <= radiusSq).ToList();
 	}
@@ -123,9 +143,16 @@ public class World
 
 	private void DoEnemyTurn()
 	{
-		foreach (var enemy in _enemies)
+		foreach (var enemy in _actors.Where(enemy => enemy.Faction == Faction.Enemy))
 		{
-			System.Console.WriteLine($"{enemy.ActorType.Name} takes their turn");
+			// System.Console.WriteLine($"{enemy.ActorType.Name} takes their turn");
 		}
+	}
+
+	private void ActorDied(Actor actor)
+	{
+		System.Console.WriteLine($"{actor.ActorType.Name} has been slain!");
+		_actors.Remove(actor);
+		_objects.Remove(actor);
 	}
 }

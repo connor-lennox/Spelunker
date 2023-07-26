@@ -7,7 +7,7 @@ public class Inventory
 
 	public int CurrentlyHeld;
 
-	public Item HeldItem => Items[CurrentlyHeld];
+	public Item? HeldItem => Items.Count > 0 ? Items[CurrentlyHeld] : null;
 	
 	public Inventory(int maxSize)
 	{
