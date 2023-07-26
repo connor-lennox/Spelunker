@@ -9,8 +9,10 @@ public class World
 	private TileType[,] _tiles;
 	
 	private readonly List<GameObject> _objects = new();
-	private Actor _player;
+	public readonly Actor Player;
 	private readonly List<Actor> _actors = new();
+
+	private readonly List<Actor> _dead = new();
 
 	private Viewshed _playerViewshed;
 
@@ -20,11 +22,12 @@ public class World
 		Height = height;
 		_tiles = tiles;
 		
-		_player = new Actor(ActorType.Get("Player"), Faction.Player);
-		AddActor(_player, playerSpawn);
+		Player = new Actor(ActorType.Get("Player"), Faction.Player, null);
+		Player.OnDeath += GameOver;
+		AddActor(Player, playerSpawn);
 		
 		_playerViewshed = new Viewshed(this);
-		_playerViewshed.CalculateFrom(_player.Position);
+		_playerViewshed.CalculateFrom(Player.Position);
 	}
 
 	public void AddObject(GameObject gameObject, Point position)
@@ -134,10 +137,15 @@ public class World
 		return _tiles[point.X, point.Y].Transparent;
 	}
 
+	public bool PositionVisible(Point point)
+	{
+		return _playerViewshed[point] == VisibilityStatus.Visible;
+	}
+
 	public void MovePlayer(int dx, int dy)
 	{
-		_player.MoveInDirection(dx, dy);
-		_playerViewshed.CalculateFrom(_player.Position);
+		Player.MoveInDirection(dx, dy);
+		_playerViewshed.CalculateFrom(Player.Position);
 		DoEnemyTurn();
 	}
 
@@ -145,14 +153,30 @@ public class World
 	{
 		foreach (var enemy in _actors.Where(enemy => enemy.Faction == Faction.Enemy))
 		{
-			// System.Console.WriteLine($"{enemy.ActorType.Name} takes their turn");
+			enemy.GetAgentAction().Execute(enemy);
 		}
+		CleanupDead();
 	}
 
 	private void ActorDied(Actor actor)
 	{
 		System.Console.WriteLine($"{actor.ActorType.Name} has been slain!");
-		_actors.Remove(actor);
-		_objects.Remove(actor);
+		_dead.Add(actor);
+	}
+
+	private void CleanupDead()
+	{
+		foreach (var d in _dead)
+		{
+			_actors.Remove(d);
+			_objects.Remove(d);
+		}
+		
+		_dead.Clear();
+	}
+
+	private void GameOver()
+	{
+		System.Console.WriteLine("Game Over");
 	}
 }

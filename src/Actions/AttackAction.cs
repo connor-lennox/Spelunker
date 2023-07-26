@@ -4,22 +4,18 @@ namespace Spelunker;
 
 public class AttackAction : Action
 {
-	private readonly int _dx;
-	private readonly int _dy;
+	private readonly Point _targetPosition;
 
-	public AttackAction(int dx, int dy)
+	public AttackAction(Point targetPosition)
 	{
-		_dx = dx;
-		_dy = dy;
+		_targetPosition = targetPosition;
 	}
 
 	public override bool Execute(Actor instigator)
 	{
 		Debug.Assert(instigator.World != null, "instigator.World != null");
-		
-		var targetPos = instigator.Position + (_dx, _dy);
 
-		if (instigator.World.ObjectAtPoint(targetPos) is not Actor target) return false;
+		if (instigator.World.ActorAtPoint(_targetPosition) is not { } target) return false;
 
 		var heldItem = instigator.Inventory.HeldItem;
 

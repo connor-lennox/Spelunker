@@ -4,23 +4,20 @@ namespace Spelunker;
 
 public class MoveAction : Action
 {
-	private readonly int _dx;
-	private readonly int _dy;
+	private readonly Point _endPoint;
 
-	public MoveAction(int dx, int dy)
+	public MoveAction(Point endPoint)
 	{
-		_dx = dx;
-		_dy = dy;
+		_endPoint = endPoint;
 	}
 
 	public override bool Execute(Actor instigator)
 	{
 		Debug.Assert(instigator.World != null, "instigator.World != null");
+		
+		if (!instigator.World.TilePassable(_endPoint)) return false;
 
-		var newPos = instigator.Position + (_dx, _dy);
-		if (!instigator.World.TilePassable(newPos)) return false;
-
-		instigator.Position = newPos;
+		instigator.Position = _endPoint;
 
 		return true;
 

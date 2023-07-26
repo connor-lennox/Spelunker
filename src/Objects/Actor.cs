@@ -14,14 +14,22 @@ public class Actor : GameObject
 
 	public Faction Faction;
 
+	public BaseAgent Agent;
+
 	public override bool Blocking => true;
 
-	public Actor(ActorType actorType, Faction faction)
+	public Actor(ActorType actorType, Faction faction, BaseAgent agent)
 	{
 		ActorType = actorType;
 		_health = actorType.MaxHealth;
 		Faction = faction;
 		Inventory = new Inventory(actorType.InventorySize);
+
+		if (agent != null)
+		{
+			Agent = agent;
+			Agent.Actor = this;
+		}
 	}
 
 	public override ColoredGlyph Glyph => ActorType.Glyph;
@@ -53,18 +61,22 @@ public class Actor : GameObject
 	/// <returns></returns>
 	public bool MoveInDirection(int dx, int dy)
 	{
-		if (ExecuteAction(new MoveAction(dx, dy)))
+		var targetPoint = Position + new Point(dx, dy);
+		
+		if (ExecuteAction(new MoveAction(targetPoint)))
 		{
 			return true;
 		}
 
-		if (ExecuteAction(new AttackAction(dx, dy)))
+		if (ExecuteAction(new AttackAction(targetPoint)))
 		{
 			return true;
 		}
 
 		return false;
 	}
+
+	public Action GetAgentAction() => Agent.Decide();
 
 	private void Death()
 	{
