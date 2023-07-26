@@ -10,6 +10,8 @@ public class Actor : GameObject
 
 	private int _health;
 
+	public bool Alive => _health > 0;
+
 	public Inventory Inventory;
 
 	public Faction Faction;
@@ -36,6 +38,8 @@ public class Actor : GameObject
 
 	public void TakeDamage(int amount)
 	{
+		if (!Alive) return;
+		
 		_health = Math.Max(_health - amount, 0);
 		if (_health == 0)
 		{
@@ -45,35 +49,16 @@ public class Actor : GameObject
 
 	public void HealDamage(int amount)
 	{
+		if (!Alive) return;
+		
 		_health = Math.Min(_health + amount, ActorType.MaxHealth);
 	}
 	
 	public bool ExecuteAction(Action action)
 	{
-		return action.Execute(this);
-	}
-
-	/// <summary>
-	/// Moves the Actor in a direction, or attacks an Actor that is in the target tile.
-	/// </summary>
-	/// <param name="dx"></param>
-	/// <param name="dy"></param>
-	/// <returns></returns>
-	public bool MoveInDirection(int dx, int dy)
-	{
-		var targetPoint = Position + new Point(dx, dy);
+		if (!Alive) return false;
 		
-		if (ExecuteAction(new MoveAction(targetPoint)))
-		{
-			return true;
-		}
-
-		if (ExecuteAction(new AttackAction(targetPoint)))
-		{
-			return true;
-		}
-
-		return false;
+		return action.Execute(this);
 	}
 
 	public Action GetAgentAction() => Agent.Decide();

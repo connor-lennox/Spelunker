@@ -6,15 +6,12 @@ public class World
 {
 	public int Width { get; }
 	public int Height { get; }
-	private TileType[,] _tiles;
+	private readonly TileType[,] _tiles;
 	
-	private readonly List<GameObject> _objects = new();
+	public readonly List<GameObject> Objects = new();
 	public readonly Actor Player;
-	private readonly List<Actor> _actors = new();
-
-	private readonly List<Actor> _dead = new();
-
-	private Viewshed _playerViewshed;
+	
+	private readonly Viewshed _playerViewshed;
 
 	public World(TileType[,] tiles, int width, int height, Point playerSpawn)
 	{
@@ -23,8 +20,7 @@ public class World
 		_tiles = tiles;
 		
 		Player = new Actor(ActorType.Get("Player"), Faction.Player, null);
-		Player.OnDeath += GameOver;
-		AddActor(Player, playerSpawn);
+		AddObject(Player, playerSpawn);
 		
 		_playerViewshed = new Viewshed(this);
 		_playerViewshed.CalculateFrom(Player.Position);
@@ -34,16 +30,14 @@ public class World
 	{
 		gameObject.Position = position;
 		gameObject.World = this;
-		_objects.Add(gameObject);
+		Objects.Add(gameObject);
 	}
 
-	public void AddActor(Actor actor, Point position)
+	public void RemoveObject(GameObject gameObject)
 	{
-		_actors.Add(actor);
-		AddObject(actor, position);
-		actor.OnDeath += () => ActorDied(actor);
+		Objects.Remove(gameObject);
 	}
-	
+
 	public void Render(ScreenSurface surface)
 	{
 		RenderMap(surface);
@@ -71,56 +65,25 @@ public class World
 
 	private void RenderObjects(ISurfaceSettable surface)
 	{
-		foreach (var gameObject in _objects)
+		foreach (var gameObject in Objects.Where(gameObject =>
+			         _playerViewshed[gameObject.Position] == VisibilityStatus.Visible))
 		{
-			if (_playerViewshed[gameObject.Position] == VisibilityStatus.Visible)
-			{
-				gameObject.Glyph.CopyAppearanceTo(surface.Surface[gameObject.Position]);
-			}
+			gameObject.Glyph.CopyAppearanceTo(surface.Surface[gameObject.Position]);
 		}
 	}
 
 	public GameObject? ObjectAtPoint(Point point)
 	{
-		// TODO: Optimize this
-		foreach (var obj in _objects)
-		{
-			if (obj.Position == point)
-			{
-				return obj;
-			}
-		}
-
-		return null;
-	}
-
-	public Actor? ActorAtPoint(Point point)
-	{
-		foreach (var actor in _actors)
-		{
-			if (actor.Position == point)
-			{
-				return actor;
-			}
-		}
-
-		return null;
+		return Objects.FirstOrDefault(obj => obj.Position == point);
 	}
 
 	public List<GameObject> ObjectsInRange(Point point, int radiusSq)
 	{
-		return _objects.Where(obj =>
+		return Objects.Where(obj =>
 			(point.X - obj.Position.X) * (point.X - obj.Position.X) +
 			(point.Y - obj.Position.Y) * (point.Y - obj.Position.Y) <= radiusSq).ToList();
 	}
-	
-	public List<Actor> ActorsInRange(Point point, int radiusSq)
-	{
-		return _actors.Where(obj =>
-			(point.X - obj.Position.X) * (point.X - obj.Position.X) +
-			(point.Y - obj.Position.Y) * (point.Y - obj.Position.Y) <= radiusSq).ToList();
-	}
-	
+
 	public bool PointInBounds(Point point)
 	{
 		return point.X >= 0 && point.X < Width && point.Y >= 0 && point.Y < Height;
@@ -142,41 +105,8 @@ public class World
 		return _playerViewshed[point] == VisibilityStatus.Visible;
 	}
 
-	public void MovePlayer(int dx, int dy)
+	public void UpdateVisibility()
 	{
-		Player.MoveInDirection(dx, dy);
 		_playerViewshed.CalculateFrom(Player.Position);
-		DoEnemyTurn();
-	}
-
-	private void DoEnemyTurn()
-	{
-		foreach (var enemy in _actors.Where(enemy => enemy.Faction == Faction.Enemy))
-		{
-			enemy.GetAgentAction().Execute(enemy);
-		}
-		CleanupDead();
-	}
-
-	private void ActorDied(Actor actor)
-	{
-		System.Console.WriteLine($"{actor.ActorType.Name} has been slain!");
-		_dead.Add(actor);
-	}
-
-	private void CleanupDead()
-	{
-		foreach (var d in _dead)
-		{
-			_actors.Remove(d);
-			_objects.Remove(d);
-		}
-		
-		_dead.Clear();
-	}
-
-	private void GameOver()
-	{
-		System.Console.WriteLine("Game Over");
 	}
 }

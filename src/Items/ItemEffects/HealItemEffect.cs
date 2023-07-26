@@ -11,7 +11,7 @@ public class HealItemEffect : ItemEffect
 
 	public override bool Execute(Actor instigator, Item item, Point target)
 	{
-		if (instigator.World?.ActorAtPoint(target) is not { } targetActor) return false;
+		if (instigator.World?.ObjectAtPoint(target) is not Actor targetActor) return false;
 		
 		targetActor.HealDamage(_amount);
 		return true;

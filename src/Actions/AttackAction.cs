@@ -2,20 +2,17 @@ using System.Diagnostics;
 
 namespace Spelunker;
 
-public class AttackAction : Action
+public class AttackAction : PositionalAction
 {
-	private readonly Point _targetPosition;
-
-	public AttackAction(Point targetPosition)
+	public AttackAction(Point targetPoint) : base(targetPoint)
 	{
-		_targetPosition = targetPosition;
 	}
 
 	public override bool Execute(Actor instigator)
 	{
 		Debug.Assert(instigator.World != null, "instigator.World != null");
 
-		if (instigator.World.ActorAtPoint(_targetPosition) is not { } target) return false;
+		if (instigator.World.ObjectAtPoint(_targetPoint) is not Actor target) return false;
 
 		var heldItem = instigator.Inventory.HeldItem;
 

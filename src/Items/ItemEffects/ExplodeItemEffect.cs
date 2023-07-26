@@ -15,7 +15,7 @@ public class ExplodeItemEffect : ItemEffect
 	{
 		if (instigator.World == null) return false;
 		
-		foreach (var obj in instigator.World.ActorsInRange(target, _radiusSq))
+		foreach (var obj in instigator.World.ObjectsInRange(target, _radiusSq))
 		{
 			(obj as Actor)?.TakeDamage(_damage);
 		}

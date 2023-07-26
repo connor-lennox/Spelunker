@@ -7,6 +7,8 @@ class RootScene : ScreenObject
     private ScreenSurface _mainSurface;
 
     private World _world;
+
+    private Engine _engine;
     
     public RootScene()
     {
@@ -19,6 +21,9 @@ class RootScene : ScreenObject
         Children.Add(_mainSurface);
 
         _world = new WorldGenerator(GameSettings.GAME_WIDTH, GameSettings.GAME_HEIGHT, new RoomWorldGenerationStrategy(9, 5, 11)).BuildWorld();
+        
+        _engine = new Engine();
+        _engine.LoadWorld(_world);
     }
 
     public override void Render(TimeSpan delta)
@@ -30,28 +35,6 @@ class RootScene : ScreenObject
 
     public override bool ProcessKeyboard(Keyboard keyboard)
     {
-        var handled = false;
-        
-        if (keyboard.IsKeyPressed(Keys.Up))
-        {
-            _world.MovePlayer(0, -1);
-            handled = true;
-        }
-        else if (keyboard.IsKeyPressed(Keys.Down))
-        {
-            _world.MovePlayer(0, 1);
-            handled = true;
-        }
-        else if (keyboard.IsKeyPressed(Keys.Left))
-        {
-            _world.MovePlayer(-1, 0);
-            handled = true;
-        }
-        else if (keyboard.IsKeyPressed(Keys.Right))
-        {
-            _world.MovePlayer(1, 0);
-            handled = true;
-        }
-        return handled;
+        return _engine.ReceiveInput(keyboard);
     }
 }
