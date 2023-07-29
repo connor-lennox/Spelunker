@@ -5,7 +5,8 @@ namespace Spelunker;
 public class HoverInfoConsole : Console
 {
 	private Border _border;
-
+	public Point BasePosition;
+	
 	private static readonly Border.BorderParameters BorderParameters = Border.BorderParameters.GetDefault()
 		.ChangeBorderColors(Color.Yellow, Color.Black);
 
@@ -17,8 +18,8 @@ public class HoverInfoConsole : Console
 
 	public void DisplayAt(Point position, List<string> contents)
 	{
-		Resize(contents.Select(c => c.Length).Max(), contents.Count, true);
-		Position = position;
+		Resize(Width, contents.Count, true);
+		Position = BasePosition - new Point(0, Height);
 		for (var i = 0; i < contents.Count; i++)
 		{
 			Surface.Print(0, i, contents[i]);

@@ -87,7 +87,8 @@ public class Actor : GameObject
 		return new List<string>
 		{
 			ActorType.Name,
-			$"{Health}/{ActorType.MaxHealth}"
+			$"HP: {Health}/{ActorType.MaxHealth}",
+			$"Holding: {Inventory.HeldItem?.ItemType.Name ?? "Nothing"}"
 		};
 	}
 }

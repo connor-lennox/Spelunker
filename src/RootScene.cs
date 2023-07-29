@@ -34,7 +34,9 @@ class RootScene : ScreenObject
         _worldSurface.OnHoverInfoUpdate += DrawHoverInfo;
         Children.Add(_worldSurface);
 
-        _hoverInfoConsole = new HoverInfoConsole(1, 1);
+        _hoverInfoConsole = new HoverInfoConsole(GameSettings.InfoBoxWidth, 1);
+        _hoverInfoConsole.BasePosition = new Point(GameSettings.ScreenWorldWidth - GameSettings.InfoBoxWidth - 1,
+            GameSettings.ScreenWorldHeight - 1);
         _hoverInfoConsole.Hide();
         Children.Add(_hoverInfoConsole);
     }

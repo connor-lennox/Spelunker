@@ -5,4 +5,6 @@
 
     public const int ScreenWorldWidth = 74;
     public const int ScreenWorldHeight = 24;
+
+    public const int InfoBoxWidth = 25;
 }
