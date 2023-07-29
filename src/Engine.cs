@@ -18,11 +18,12 @@ public class Engine
 	{
 		World = world;
 		_player = world.Player;
-		_player.OnDeath += GameOver;
 		
 		// Fetch all actors from the World and assign the basic death event
 		_actors = world.Objects.Where(o => o is Actor).Cast<Actor>().ToList();
 		_actors.ForEach(a => a.OnDeath += () => ActorDied(a));
+		
+		_player.OnDeath += GameOver;
 	}
 
 	public bool ReceiveInput(Keyboard keyboard)

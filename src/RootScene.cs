@@ -20,6 +20,11 @@ class RootScene : ScreenObject
         // will be displayed.
         Children.Add(_mainSurface);
 
+        var statusConsole = new StatusConsole(GameSettings.GameWidth - GameSettings.ScreenWorldWidth - 2,
+            GameSettings.ScreenWorldHeight - 1);
+        statusConsole.Position = new Point(GameSettings.ScreenWorldWidth + 1, 1);
+        Children.Add(statusConsole);
+        
         var logConsole =
             new LogConsole(GameSettings.GameWidth - 2, GameSettings.GameHeight - GameSettings.ScreenWorldHeight - 2);
         logConsole.Position = new Point(1, GameSettings.ScreenWorldHeight + 1);

@@ -4,5 +4,5 @@
     public const int GameHeight = 30;
 
     public const int ScreenWorldWidth = 74;
-    public const int ScreenWorldHeight = 25;
+    public const int ScreenWorldHeight = 24;
 }

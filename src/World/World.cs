@@ -21,6 +21,7 @@ public class World
 		
 		Player = new Actor(ActorType.Get("Player"), Faction.Player, null);
 		AddObject(Player, playerSpawn);
+		StatusConsole.Instance?.RegisterPlayer(Player);
 		
 		_playerViewshed = new Viewshed(this);
 		_playerViewshed.CalculateFrom(Player.Position);

@@ -3,14 +3,16 @@ namespace Spelunker;
 
 public class Actor : GameObject
 {
-
+	// Health Changed: (current health, max health)
+	public event Action<int, int>? OnHealthChanged;
 	public event System.Action? OnDeath;
+	public event Action<Inventory>? OnInventoryChanged;
 	
 	public  readonly ActorType ActorType;
 
-	private int _health;
+	public int Health { get; private set; }
 
-	public bool Alive => _health > 0;
+	public bool Alive => Health > 0;
 
 	public Inventory Inventory;
 
@@ -23,7 +25,7 @@ public class Actor : GameObject
 	public Actor(ActorType actorType, Faction faction, BaseAgent agent)
 	{
 		ActorType = actorType;
-		_health = actorType.MaxHealth;
+		Health = actorType.MaxHealth;
 		Faction = faction;
 		Inventory = new Inventory(actorType.InventorySize);
 
@@ -40,8 +42,9 @@ public class Actor : GameObject
 	{
 		if (!Alive) return;
 		
-		_health = Math.Max(_health - amount, 0);
-		if (_health == 0)
+		Health = Math.Max(Health - amount, 0);
+		SendHealthUpdateEvent();
+		if (Health == 0)
 		{
 			Death();
 		}
@@ -51,7 +54,8 @@ public class Actor : GameObject
 	{
 		if (!Alive) return;
 		
-		_health = Math.Min(_health + amount, ActorType.MaxHealth);
+		Health = Math.Min(Health + amount, ActorType.MaxHealth);
+		SendHealthUpdateEvent();
 	}
 	
 	public bool ExecuteAction(Action action)
@@ -66,5 +70,15 @@ public class Actor : GameObject
 	private void Death()
 	{
 		OnDeath?.Invoke();
+	}
+
+	private void SendHealthUpdateEvent()
+	{
+		OnHealthChanged?.Invoke(Health, ActorType.MaxHealth);
+	}
+
+	private void SendInventoryUpdateEvent()
+	{
+		OnInventoryChanged?.Invoke(Inventory);
 	}
 }
