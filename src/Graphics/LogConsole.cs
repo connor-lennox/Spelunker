@@ -4,7 +4,7 @@ namespace Spelunker;
 
 public class LogConsole : Console
 {
-	private List<string> _contents = new();
+	private List<LogMessage> _contents = new();
 
 	private int _maxLines;
 	
@@ -21,9 +21,9 @@ public class LogConsole : Console
 		Logger.OnLogReceived += UpdateContents;
 	}
 
-	private void UpdateContents(string newLine)
+	private void UpdateContents(LogMessage newMessage)
 	{
-		_contents.Add(newLine);
+		_contents.Add(newMessage);
 		if (_contents.Count > _maxLines)
 		{
 			_contents.RemoveAt(0);
@@ -36,7 +36,8 @@ public class LogConsole : Console
 		Surface.Clear();
 		for (var i = 0; i < _contents.Count; i++)
 		{
-			Surface.Print(0, i, _contents[i]);
+			Surface.Print(0, i, $"[{_contents[i].Time:0000}]:", Color.CornflowerBlue);
+			Surface.Print(8, i, _contents[i].Contents);
 		}
 	}
 }

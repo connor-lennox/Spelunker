@@ -39,6 +39,8 @@ class RootScene : ScreenObject
             GameSettings.ScreenWorldHeight - 1);
         _hoverInfoConsole.Hide();
         Children.Add(_hoverInfoConsole);
+        
+        Logger.Log("The game begins...");
     }
 
     public override void Render(TimeSpan delta)

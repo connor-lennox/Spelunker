@@ -42,6 +42,8 @@ public class Engine
 		CleanupDead();
 		
 		DoEnemyTurn();
+		
+		GameTime.NextTurn();
 	}
 	
 	private void DoEnemyTurn()
