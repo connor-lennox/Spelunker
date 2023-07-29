@@ -27,9 +27,11 @@ public class StatusConsole : Console
 		Surface.Print(0, 0, $"HP: {_currentHealth}/{_maxHealth}");
 		
 		Surface.Print(0, 2, "Inventory:");
-		for (var i = 0; i < _inventory.Items.Count; i++)
+		for (var i = 0; i < _inventory.MaxSize; i++)
 		{
-			Surface.Print(0, 3+i, $"{i+1}: {_inventory.Items[i].Name}");
+			var slotText = _inventory.Items.Count > i ? _inventory.Items[i].Name : "";
+			var slotColor = _inventory.CurrentlyHeld == i ? Color.Yellow : Color.White;
+			Surface.Print(0, 3+i, $"{(i + 1) % 10}: {slotText}", slotColor);
 		}
 	}
 	
