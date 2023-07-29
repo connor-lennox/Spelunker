@@ -81,4 +81,13 @@ public class Actor : GameObject
 	{
 		OnInventoryChanged?.Invoke(Inventory);
 	}
+
+	public override List<string> GetHoverInfo()
+	{
+		return new List<string>
+		{
+			ActorType.Name,
+			$"{Health}/{ActorType.MaxHealth}"
+		};
+	}
 }

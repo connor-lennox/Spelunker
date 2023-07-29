@@ -8,4 +8,6 @@ public abstract class GameObject
 	public abstract ColoredGlyph Glyph { get; }
 
 	public virtual bool Blocking => false;
+
+	public abstract List<string> GetHoverInfo();
 }

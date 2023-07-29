@@ -66,8 +66,7 @@ public class World
 
 	private void RenderObjects(ISurfaceSettable surface)
 	{
-		foreach (var gameObject in Objects.Where(gameObject =>
-			         _playerViewshed[gameObject.Position] == VisibilityStatus.Visible))
+		foreach (var gameObject in Objects.Where(gameObject => PositionVisible(gameObject.Position)))
 		{
 			gameObject.Glyph.CopyAppearanceTo(surface.Surface[gameObject.Position]);
 		}

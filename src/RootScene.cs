@@ -9,6 +9,8 @@ class RootScene : ScreenObject
     private Engine _engine;
 
     private WorldSurface _worldSurface;
+
+    private HoverInfoConsole _hoverInfoConsole;
     
     public RootScene()
     {
@@ -29,7 +31,12 @@ class RootScene : ScreenObject
         _engine.LoadWorld(_world);
 
         _worldSurface = new WorldSurface(GameSettings.ScreenWorldWidth, GameSettings.ScreenWorldHeight, _world);
+        _worldSurface.OnHoverInfoUpdate += DrawHoverInfo;
         Children.Add(_worldSurface);
+
+        _hoverInfoConsole = new HoverInfoConsole(1, 1);
+        _hoverInfoConsole.Hide();
+        Children.Add(_hoverInfoConsole);
     }
 
     public override void Render(TimeSpan delta)
@@ -41,5 +48,17 @@ class RootScene : ScreenObject
     public override bool ProcessKeyboard(Keyboard keyboard)
     {
         return _engine.ReceiveInput(keyboard);
+    }
+
+    public void DrawHoverInfo(Point position, List<string>? contents)
+    {
+        if (contents != null)
+        {
+            _hoverInfoConsole.DisplayAt(position, contents);
+        }
+        else
+        {
+            _hoverInfoConsole.Hide();
+        }
     }
 }
