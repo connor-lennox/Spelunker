@@ -61,7 +61,7 @@ public class Engine
 	{
 		foreach (var d in _dead)
 		{
-			System.Console.WriteLine($"{d.ActorType.Name} has been slain!");
+			Logger.Log($"{d.ActorType.Name} has been slain!");
 			_actors.Remove(d);
 			World.RemoveObject(d);
 		}
@@ -71,7 +71,7 @@ public class Engine
 	
 	private void GameOver()
 	{
-		System.Console.WriteLine("Game Over");
+		Logger.Log("Game Over");
 		_inputHandler = new GameOverInputHandler();
 	}
 }

@@ -18,13 +18,13 @@ public class AttackAction : PositionalAction
 
 		if (heldItem != null)
 		{
-			System.Console.WriteLine($"{instigator.ActorType.Name} swings the {heldItem.Name}, striking the {target.ActorType.Name} for {heldItem.ItemType.MeleeDamage} damage!");
+			Logger.Log($"{instigator.ActorType.Name} swings the {heldItem.Name}, striking the {target.ActorType.Name} for {heldItem.ItemType.MeleeDamage} damage!");
 			target.TakeDamage(heldItem.ItemType.MeleeDamage);
 			heldItem.OnAttack(instigator, target);
 		}
 		else
 		{
-			System.Console.WriteLine($"{instigator.ActorType.Name} punches the {target.ActorType.Name} for 1 damage!");
+			Logger.Log($"{instigator.ActorType.Name} punches the {target.ActorType.Name} for 1 damage!");
 			target.TakeDamage(1);
 		}
 		

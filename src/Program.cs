@@ -3,7 +3,7 @@
 Settings.WindowTitle = "Spelunker";
 
 var gameStartup = new Game.Configuration()
-    .SetScreenSize(GameSettings.GAME_WIDTH, GameSettings.GAME_HEIGHT)
+    .SetScreenSize(GameSettings.GameWidth, GameSettings.GameHeight)
     .SetStartingScreen<Spelunker.Scenes.RootScene>();
 
 var itemLoader = new ItemLoader();
