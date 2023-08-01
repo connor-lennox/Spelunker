@@ -27,6 +27,12 @@ public class DefaultInputHandler : InputHandler
 			return true;
 		}
 
+		if (keyboard.IsKeyPressed(Keys.V))
+		{
+			engine.OpenHistory();
+			return true;
+		}
+
 		return false;
 	}
 }

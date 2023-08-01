@@ -4,38 +4,46 @@ namespace Spelunker;
 
 public class Engine
 {
+	public event System.Action? RequestHistoryPane;
+	
 	public World World;
 
-	private InputHandler _inputHandler = new DefaultInputHandler();
-	
-	private Actor _player;
+	private readonly Stack<InputHandler> _inputStack = new();
+	private InputHandler InputHandler => _inputStack.Peek();
+
+	public Actor Player;
 	private List<Actor> _actors = new();
 
 	// List of dead actors, used to avoid concurrent modification
 	private readonly List<Actor> _dead = new();
 
+	public Engine()
+	{
+		PushInputHandler(new DefaultInputHandler());
+	}
+
 	public void LoadWorld(World world)
 	{
 		World = world;
-		_player = world.Player;
+		Player = world.Player;
 		
 		// Fetch all actors from the World and assign the basic death event
 		_actors = world.Objects.Where(o => o is Actor).Cast<Actor>().ToList();
 		_actors.ForEach(a => a.OnDeath += () => ActorDied(a));
 		
-		_player.OnDeath += GameOver;
+		Player.OnDeath += GameOver;
 	}
 
 	public bool ReceiveInput(Keyboard keyboard)
 	{
-		return _inputHandler.HandleInput(this, keyboard);
+		return InputHandler.HandleInput(this, keyboard);
 	}
 
 	public void DoPlayerTurn(Action playerAction)
 	{
-		playerAction.Execute(_player);
+		playerAction.Execute(Player);
 		World.UpdateVisibility();
-		foreach (var ally in _actors.Where(ally => ally.Faction == Faction.Player && ally != _player))
+		foreach (var ally in _actors.Where(ally => ally.Faction == Faction.Player && ally != Player))
 		{
 			ally.GetAgentAction().Execute(ally);
 		}
@@ -75,6 +83,23 @@ public class Engine
 	private void GameOver()
 	{
 		Logger.Log("Game Over");
-		_inputHandler = new GameOverInputHandler();
+		// Force input stack to just be the game over handler
+		_inputStack.Clear();
+		_inputStack.Push(new GameOverInputHandler());
+	}
+
+	public void PushInputHandler(InputHandler handler)
+	{
+		_inputStack.Push(handler);
+	}
+
+	public InputHandler PopInputHandler()
+	{
+		return _inputStack.Pop();
+	}
+
+	public void OpenHistory()
+	{
+		RequestHistoryPane?.Invoke();
 	}
 }
