@@ -9,7 +9,7 @@ public class Inventory
 
 	public int CurrentlyHeld;
 
-	public Item? HeldItem => Items.Count > 0 ? Items[CurrentlyHeld] : null;
+	public Item? HeldItem => CurrentlyHeld >= 0 && CurrentlyHeld < Items.Count ? Items[CurrentlyHeld] : null;
 	
 	public Inventory(int maxSize)
 	{
@@ -24,12 +24,9 @@ public class Inventory
 			return false;
 		}
 		
-		// If you aren't holding anything and pick something up, you are now holding it.
+		// If you pick something up, you are now holding it.
 		Items.Add(item);
-		if (CurrentlyHeld == -1)
-		{
-			CurrentlyHeld = Items.Count - 1;
-		}
+		CurrentlyHeld = Items.Count - 1;
 
 		OnInventoryChanged?.Invoke(this);
 		return true;
@@ -37,7 +34,7 @@ public class Inventory
 
 	public bool SwapHeldItem(int idx)
 	{
-		if (idx >= Items.Count)
+		if (idx >= MaxSize || idx < 0)
 		{
 			return false;
 		}
