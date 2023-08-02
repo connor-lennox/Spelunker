@@ -18,7 +18,7 @@ public class BumpAction : Action
 			return new MoveAction(targetPos).Execute(instigator);
 		}
 		
-		if (instigator.World.ObjectAtPoint(targetPos) is Actor)
+		if (instigator.World.ActorAtPoint(targetPos) != null)
 		{
 			return new AttackAction(targetPos).Execute(instigator);
 		}

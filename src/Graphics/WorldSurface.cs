@@ -25,7 +25,7 @@ public class WorldSurface : ScreenSurface
 		var point = e.CellPosition;
 		if (_world.PositionVisible(point))
 		{
-			var obj = _world.ObjectAtPoint(point);
+			var obj = _world.ActorAtPoint(point) ?? (GameObject?)_world.ItemAtPoint(point);
 			OnHoverInfoUpdate?.Invoke(point, obj?.GetHoverInfo());
 		}
 		else

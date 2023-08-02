@@ -28,7 +28,7 @@ public class Engine
 		Player = world.Player;
 		
 		// Fetch all actors from the World and assign the basic death event
-		_actors = world.Objects.Where(o => o is Actor).Cast<Actor>().ToList();
+		_actors = world.Actors;
 		_actors.ForEach(a => a.OnDeath += () => ActorDied(a));
 		
 		Player.OnDeath += GameOver;
@@ -74,7 +74,7 @@ public class Engine
 		{
 			Logger.Log($"{d.ActorType.Name} has been slain!");
 			_actors.Remove(d);
-			World.RemoveObject(d);
+			World.RemoveActor(d);
 		}
 		
 		_dead.Clear();

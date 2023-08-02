@@ -12,7 +12,7 @@ public class AttackAction : PositionalAction
 	{
 		Debug.Assert(instigator.World != null, "instigator.World != null");
 
-		if (instigator.World.ObjectAtPoint(_targetPoint) is not Actor target) return false;
+		if (instigator.World.ActorAtPoint(_targetPoint) is not { } target) return false;
 
 		var heldItem = instigator.Inventory.HeldItem;
 

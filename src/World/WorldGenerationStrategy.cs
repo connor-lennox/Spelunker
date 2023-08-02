@@ -87,9 +87,9 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 		for (var i = 0; i < numEnemies; i++)
 		{
 			var p = candidatePoints[Random.Next(candidatePoints.Length)];
-			if (world.ObjectAtPoint(p) == null)
+			if (world.ActorAtPoint(p) == null)
 			{
-				world.AddObject(new Actor(ActorType.GetRandom(), Faction.Enemy, new ChargerAgent()), p);
+				world.AddActor(new Actor(ActorType.GetRandom(), Faction.Enemy, new ChargerAgent()), p);
 			}
 		}
 	}
@@ -101,9 +101,9 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 		for (var i = 0; i < numItems; i++)
 		{
 			var p = candidatePoints[Random.Next(candidatePoints.Length)];
-			if (world.ObjectAtPoint(p) == null)
+			if (world.ItemAtPoint(p) == null)
 			{
-				world.AddObject(new DroppedItem(ItemType.GetRandom()), p);
+				world.AddItem(new DroppedItem(ItemType.GetRandom()), p);
 			}
 		}
 	}

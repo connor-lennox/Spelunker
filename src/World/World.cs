@@ -8,7 +8,9 @@ public class World
 	public int Height { get; }
 	private readonly TileType[,] _tiles;
 	
-	public readonly List<GameObject> Objects = new();
+	public readonly List<Actor> Actors = new();
+	public readonly List<DroppedItem> Items = new();
+	
 	public readonly Actor Player;
 	
 	private readonly Viewshed _playerViewshed;
@@ -20,24 +22,40 @@ public class World
 		_tiles = tiles;
 		
 		Player = new Actor(ActorType.Get("Player"), Faction.Player, null);
-		AddObject(Player, playerSpawn);
+		AddActor(Player, playerSpawn);
 		
 		_playerViewshed = new Viewshed(this);
 		_playerViewshed.CalculateFrom(Player.Position);
 	}
 
-	public void AddObject(GameObject gameObject, Point position)
+	public void AddActor(Actor actor, Point position)
 	{
-		gameObject.Position = position;
-		gameObject.World = this;
-		Objects.Add(gameObject);
+		SetupGameObject(actor, position);
+		Actors.Add(actor);
 	}
 
-	public void RemoveObject(GameObject gameObject)
+	public void AddItem(DroppedItem item, Point position)
 	{
-		Objects.Remove(gameObject);
+		SetupGameObject(item, position);
+		Items.Add(item);
 	}
 
+	private void SetupGameObject(GameObject obj, Point position)
+	{
+		obj.Position = position;
+		obj.World = this;
+	}
+
+	public void RemoveActor(Actor actor)
+	{
+		Actors.Remove(actor);
+	}
+
+	public void RemoveItem(DroppedItem item)
+	{
+		Items.Remove(item);
+	}
+	
 	public void Render(ScreenSurface surface)
 	{
 		RenderMap(surface);
@@ -65,25 +83,30 @@ public class World
 
 	private void RenderObjects(ISurfaceSettable surface)
 	{
-		foreach (var gameObject in Objects.Where(gameObject => gameObject is DroppedItem && PositionVisible(gameObject.Position)))
+		foreach (var item in Items.Where(item => PositionVisible(item.Position)))
 		{
-			gameObject.Glyph.CopyAppearanceTo(surface.Surface[gameObject.Position]);
+			item.Glyph.CopyAppearanceTo(surface.Surface[item.Position]);
 		}
 		
-		foreach (var gameObject in Objects.Where(gameObject => gameObject is Actor && PositionVisible(gameObject.Position)))
+		foreach (var actor in Actors.Where(actor => PositionVisible(actor.Position)))
 		{
-			gameObject.Glyph.CopyAppearanceTo(surface.Surface[gameObject.Position]);
+			actor.Glyph.CopyAppearanceTo(surface.Surface[actor.Position]);
 		}
 	}
-
-	public GameObject? ObjectAtPoint(Point point)
+	
+	public Actor? ActorAtPoint(Point point)
 	{
-		return Objects.FirstOrDefault(obj => obj.Position == point);
+		return Actors.FirstOrDefault(obj => obj.Position == point);
 	}
 
-	public List<GameObject> ObjectsInRange(Point point, int radiusSq)
+	public DroppedItem? ItemAtPoint(Point point)
 	{
-		return Objects.Where(obj =>
+		return Items.FirstOrDefault(obj => obj.Position == point);
+	}
+
+	public List<Actor> ActorsInRange(Point point, int radiusSq)
+	{
+		return Actors.Where(obj =>
 			(point.X - obj.Position.X) * (point.X - obj.Position.X) +
 			(point.Y - obj.Position.Y) * (point.Y - obj.Position.Y) <= radiusSq).ToList();
 	}
@@ -95,7 +118,8 @@ public class World
 	
 	public bool TilePassable(Point point)
 	{
-		var objBlocking = ObjectAtPoint(point) != null && ObjectAtPoint(point)!.Blocking;
+		var objBlocking = (ActorAtPoint(point) != null && ActorAtPoint(point)!.Blocking) || 
+		                  (ItemAtPoint(point) != null && ItemAtPoint(point)!.Blocking);
 		return _tiles[point.X, point.Y].Passable && !objBlocking;
 	}
 
