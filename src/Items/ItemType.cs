@@ -30,6 +30,12 @@ public class ItemType
 	}
 	private static readonly Dictionary<string, ItemType> ItemTypes = new();
 	public static ItemType Get(string name) => ItemTypes[name];
+
+	public static ItemType GetRandom()
+	{
+		var options = ItemTypes.Values.ToArray();
+		return options[new Random().Next(options.Length)];
+	}
 	
 	public readonly string Name;
 	public readonly ColoredGlyph Glyph;

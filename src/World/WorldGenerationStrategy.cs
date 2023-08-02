@@ -56,6 +56,7 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 		foreach (var room in rooms)
 		{
 			SpawnEnemies(world, room);
+			SpawnItems(world, room);
 		}
 		
 		return world;
@@ -89,6 +90,20 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 			if (world.ObjectAtPoint(p) == null)
 			{
 				world.AddObject(new Actor(ActorType.GetRandom(), Faction.Enemy, new ChargerAgent()), p);
+			}
+		}
+	}
+
+	private void SpawnItems(World world, Room room)
+	{
+		var numItems = Random.Next(1, 5);
+		var candidatePoints = room.InternalPoints().ToArray();
+		for (var i = 0; i < numItems; i++)
+		{
+			var p = candidatePoints[Random.Next(candidatePoints.Length)];
+			if (world.ObjectAtPoint(p) == null)
+			{
+				world.AddObject(new DroppedItem(ItemType.GetRandom()), p);
 			}
 		}
 	}
