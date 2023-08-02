@@ -42,7 +42,7 @@ public class StatusConsole : Console
 		_inventory = actor.Inventory;
 		
 		actor.OnHealthChanged += UpdateHealth;
-		actor.OnInventoryChanged += UpdateInventory;
+		actor.Inventory.OnInventoryChanged += UpdateInventory;
 		
 		Redraw();
 	}

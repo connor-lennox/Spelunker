@@ -27,6 +27,12 @@ public class DefaultInputHandler : InputHandler
 			return true;
 		}
 
+		if (keyboard.IsKeyPressed(Keys.P))
+		{
+			engine.DoPlayerTurn(new PickupItemAction(engine.Player.Position));
+			return true;
+		}
+		
 		if (keyboard.IsKeyPressed(Keys.V))
 		{
 			engine.OpenHistory();

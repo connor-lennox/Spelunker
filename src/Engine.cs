@@ -41,7 +41,10 @@ public class Engine
 
 	public void DoPlayerTurn(Action playerAction)
 	{
-		playerAction.Execute(Player);
+		if (!playerAction.Execute(Player))
+		{
+			return;
+		}
 		World.UpdateVisibility();
 		foreach (var ally in _actors.Where(ally => ally.Faction == Faction.Player && ally != Player))
 		{

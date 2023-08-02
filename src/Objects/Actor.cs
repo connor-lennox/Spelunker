@@ -6,7 +6,6 @@ public class Actor : GameObject
 	// Health Changed: (current health, max health)
 	public event Action<int, int>? OnHealthChanged;
 	public event System.Action? OnDeath;
-	public event Action<Inventory>? OnInventoryChanged;
 	
 	public  readonly ActorType ActorType;
 
@@ -75,11 +74,6 @@ public class Actor : GameObject
 	private void SendHealthUpdateEvent()
 	{
 		OnHealthChanged?.Invoke(Health, ActorType.MaxHealth);
-	}
-
-	private void SendInventoryUpdateEvent()
-	{
-		OnInventoryChanged?.Invoke(Inventory);
 	}
 
 	public override List<string> GetHoverInfo()

@@ -2,6 +2,8 @@ namespace Spelunker;
 
 public class Inventory
 {
+	public event Action<Inventory>? OnInventoryChanged;
+
 	public readonly int MaxSize;
 	public List<Item> Items;
 
@@ -29,6 +31,7 @@ public class Inventory
 			CurrentlyHeld = Items.Count - 1;
 		}
 
+		OnInventoryChanged?.Invoke(this);
 		return true;
 	}
 
@@ -40,6 +43,8 @@ public class Inventory
 		}
 
 		CurrentlyHeld = idx;
+		
+		OnInventoryChanged?.Invoke(this);
 		return true;
 	}
 	
@@ -52,6 +57,8 @@ public class Inventory
 		
 		Items.RemoveAt(CurrentlyHeld);
 		CurrentlyHeld = -1;
+		
+		OnInventoryChanged?.Invoke(this);
 		return true;
 	}
 }

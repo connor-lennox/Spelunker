@@ -29,6 +29,5 @@ public class AttackAction : PositionalAction
 		}
 		
 		return true;
-
 	}
 }
