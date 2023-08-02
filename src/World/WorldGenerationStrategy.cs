@@ -96,7 +96,7 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 
 	private void SpawnItems(World world, Room room)
 	{
-		var numItems = Random.Next(1, 5);
+		var numItems = Random.Next(1, 4);
 		var candidatePoints = room.InternalPoints().ToArray();
 		for (var i = 0; i < numItems; i++)
 		{

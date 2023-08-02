@@ -65,7 +65,12 @@ public class World
 
 	private void RenderObjects(ISurfaceSettable surface)
 	{
-		foreach (var gameObject in Objects.Where(gameObject => PositionVisible(gameObject.Position)))
+		foreach (var gameObject in Objects.Where(gameObject => gameObject is DroppedItem && PositionVisible(gameObject.Position)))
+		{
+			gameObject.Glyph.CopyAppearanceTo(surface.Surface[gameObject.Position]);
+		}
+		
+		foreach (var gameObject in Objects.Where(gameObject => gameObject is Actor && PositionVisible(gameObject.Position)))
 		{
 			gameObject.Glyph.CopyAppearanceTo(surface.Surface[gameObject.Position]);
 		}
