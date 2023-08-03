@@ -71,24 +71,30 @@ public class ItemLoader : BaseLoader<ItemType>
 	private static List<ItemTag> ParseTags(string tagString)
 	{
 		var tags = new List<ItemTag>();
-		foreach (var tag in tagString.Split(' '))
+		var tokens = tagString.Split(' ');
+
+		var idx = 0;
+		while (idx < tokens.Length)
 		{
-			if (tag.Length > 0)
+			var tagId = tokens[idx++];
+			if (tagId.Length == 0) continue;
+
+			switch (tagId.ToUpper())
 			{
-				switch (tag.ToUpper())
-				{
-					case "FRAGILE":
-						tags.Add(ItemTag.GetTag<FragileItemTag>());
-						break;
-					case "AUTOUSE":
-						tags.Add(ItemTag.GetTag<AutouseItemTag>());
-						break;
-					case "CONSUMABLE":
-						tags.Add(ItemTag.GetTag<ConsumableItemTag>());
-						break;
-					default:
-						throw new ArgumentException($"unknown item tag {tag}");
-				}
+				case "FRAGILE":
+					tags.Add(ItemTag.GetTag<FragileItemTag>());
+					break;
+				case "AUTOUSE":
+					tags.Add(ItemTag.GetTag<AutouseItemTag>());
+					break;
+				case "CONSUMABLE":
+					tags.Add(ItemTag.GetTag<ConsumableItemTag>());
+					break;
+				case "SPIKY":
+					tags.Add(new SpikyItemTag(int.Parse(tokens[idx++])));
+					break;
+				default:
+					throw new ArgumentException($"unknown item tag '{tagId}'");
 			}
 		}
 

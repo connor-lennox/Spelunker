@@ -3,3 +3,4 @@ Rock            ; r     ; LightSteelBlue    ; 6             ; 1     ; TILE      
 Healing Potion  ; !     ; LightSalmon       ; 10            ; 150   ; SELF          ; 0     ; HEAL 30       ; CONSUMABLE AUTOUSE FRAGILE
 Ruby Amulet     ; R     ; OrangeRed         ; 2             ; 900   ; TILE          ; 5     ; EXPLODE 15 3  ; CONSUMABLE
 Gold Statue     ; S     ; Gold              ; 4             ; 4000  ; SELF          ; 0     ; ADMIRE        ;
+Spiky Shield    ; s     ; Green             ; 3             ; 200   ; SELF          ; 0     ; ADMIRE        ; SPIKY 3

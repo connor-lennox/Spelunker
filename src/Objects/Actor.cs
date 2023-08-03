@@ -37,7 +37,7 @@ public class Actor : GameObject
 
 	public override ColoredGlyph Glyph => ActorType.Glyph;
 
-	public void TakeDamage(int amount, Actor instigator)
+	public void TakeDamage(int amount, Actor? instigator)
 	{
 		if (!Alive) return;
 		
@@ -48,7 +48,10 @@ public class Actor : GameObject
 			Death();
 		}
 		
-		Inventory.HeldItem?.OnHitWhileHolding(this, instigator);
+		if (instigator != null)
+		{
+			Inventory.HeldItem?.OnHitWhileHolding(this, instigator);
+		}
 	}
 
 	public void HealDamage(int amount)
