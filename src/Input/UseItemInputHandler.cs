@@ -41,6 +41,13 @@ public class UseItemInputHandler : InputHandler
 		{
 			engine.DoPlayerTurn(new UseItemAction(_selector.CurrentlySelected, _item));
 			engine.FinishPlayerUseItem();
+			return true;
+		}
+
+		if (keyboard.IsKeyPressed(Keys.Escape))
+		{
+			engine.FinishPlayerUseItem();
+			return true;
 		}
 
 		return false;
