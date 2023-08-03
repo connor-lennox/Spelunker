@@ -19,13 +19,13 @@ public class AttackAction : PositionalAction
 		if (heldItem != null)
 		{
 			Logger.Log($"{instigator.ActorType.Name} swings the {heldItem.Name}, striking the {target.ActorType.Name} for {heldItem.ItemType.MeleeDamage} damage!");
-			target.TakeDamage(heldItem.ItemType.MeleeDamage);
+			target.TakeDamage(heldItem.ItemType.MeleeDamage, instigator);
 			heldItem.OnAttack(instigator, target);
 		}
 		else
 		{
 			Logger.Log($"{instigator.ActorType.Name} punches the {target.ActorType.Name} for 1 damage!");
-			target.TakeDamage(1);
+			target.TakeDamage(1, instigator);
 		}
 		
 		return true;

@@ -19,7 +19,7 @@ public class ExplodeItemEffect : ItemEffect
 		foreach (var actor in instigator.World.ActorsInRange(target, _radiusSq))
 		{
 			Logger.Log($"{actor.ActorType.Name} is caught in the explosion for {_damage} damage!");
-			actor.TakeDamage(_damage);
+			actor.TakeDamage(_damage, instigator);
 		}
 
 		return true;

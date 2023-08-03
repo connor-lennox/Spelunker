@@ -13,7 +13,7 @@ public class DamageItemEffect : ItemEffect
 	{
 		if (instigator.World?.ActorAtPoint(target) is not { } targetActor) return false;
 		
-		targetActor.TakeDamage(_damage);
+		targetActor.TakeDamage(_damage, instigator);
 		return true;
 	}
 }
