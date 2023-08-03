@@ -49,6 +49,13 @@ public class DefaultInputHandler : InputHandler
 			return true;
 		}
 		
+		// Wait
+		if (keyboard.IsKeyPressed(Keys.Space))
+		{
+			engine.DoPlayerTurn(new WaitAction());
+			return true;
+		}
+		
 		// Swap held item
 		foreach (var entry in ItemSwapKeys.Where(entry => keyboard.IsKeyPressed(entry.Key)))
 		{
