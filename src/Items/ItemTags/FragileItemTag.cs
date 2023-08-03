@@ -11,6 +11,6 @@ public class FragileItemTag : ItemTag
 	public override void OnHitWhileHolding(Actor holder, Item item, Actor instigator)
 	{
 		Logger.Log($"The {item.Name} broke!");
-		instigator.Inventory.BreakHeldItem();
+		holder.Inventory.BreakHeldItem();
 	}
 }
