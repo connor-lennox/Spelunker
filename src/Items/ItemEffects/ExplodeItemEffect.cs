@@ -15,7 +15,7 @@ public class ExplodeItemEffect : ItemEffect
 	{
 		if (instigator.World == null) return false;
 		
-		Logger.Log($"An explosion emerges from the {item.Name}!");
+		Logger.Log($"An explosion erupts from the {item.Name}!");
 		foreach (var actor in instigator.World.ActorsInRange(target, _radiusSq))
 		{
 			Logger.Log($"{actor.ActorType.Name} is caught in the explosion for {_damage} damage!");
