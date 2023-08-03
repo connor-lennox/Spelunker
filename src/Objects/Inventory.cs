@@ -47,7 +47,7 @@ public class Inventory
 	
 	public bool BreakHeldItem()
 	{
-		if (CurrentlyHeld == -1)
+		if (HeldItem == null)
 		{
 			return false;
 		}
