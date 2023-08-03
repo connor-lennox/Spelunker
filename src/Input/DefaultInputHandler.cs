@@ -56,6 +56,13 @@ public class DefaultInputHandler : InputHandler
 			return true;
 		}
 		
+		// Use item
+		if (keyboard.IsKeyPressed(Keys.U))
+		{
+			engine.StartPlayerUseItem();
+			return true;
+		}
+		
 		// Open history
 		if (keyboard.IsKeyPressed(Keys.V))
 		{

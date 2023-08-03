@@ -15,6 +15,8 @@ public class World
 	
 	private readonly Viewshed _playerViewshed;
 
+	private GridSelector? _selector;
+
 	public World(TileType[,] tiles, int width, int height, Point playerSpawn)
 	{
 		Width = width;
@@ -60,6 +62,7 @@ public class World
 	{
 		RenderMap(surface);
 		RenderObjects(surface);
+		RenderSelector(surface);
 	}
 
 	private void RenderMap(ISurfaceSettable surface)
@@ -91,6 +94,17 @@ public class World
 		foreach (var actor in Actors.Where(actor => PositionVisible(actor.Position)))
 		{
 			actor.Glyph.CopyAppearanceTo(surface.Surface[actor.Position]);
+		}
+	}
+
+	private void RenderSelector(ISurfaceSettable surface)
+	{
+		if (_selector == null) return;
+		foreach (var p in _selector.GetPoints())
+		{
+			surface.Surface[p].Background = p == _selector.CurrentlySelected
+				? GridSelector.HighlightedColor
+				: GridSelector.BackgroundColor;
 		}
 	}
 	
@@ -136,5 +150,15 @@ public class World
 	public void UpdateVisibility()
 	{
 		_playerViewshed.CalculateFrom(Player.Position);
+	}
+
+	public void StartSelection(GridSelector gridSelector)
+	{
+		_selector = gridSelector;
+	}
+
+	public void FinishSelection()
+	{
+		_selector = null;
 	}
 }

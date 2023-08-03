@@ -7,7 +7,7 @@ public class AdmireItemEffect : ItemEffect
 {
 	public override bool Execute(Actor instigator, Item item, Point target)
 	{
-		Logger.Log($"You admire the craftsmanship of the {item.ItemType.Name}");
+		Logger.Log($"You admire the craftsmanship of the {item.Name}.");
 		return true;
 	}
 }

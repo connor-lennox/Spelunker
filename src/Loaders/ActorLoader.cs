@@ -19,7 +19,7 @@ public class ActorLoader : BaseLoader<ActorType>
 
 		return new ActorType(
 			name, 
-			new ColoredGlyph(color, Color.TransparentBlack, glyph), 
+			new ColoredGlyph(color, Color.Transparent, glyph), 
 			health, 
 			inventorySize, 
 			spawnWeight

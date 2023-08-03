@@ -13,7 +13,6 @@ public class Item
 	}
 
 	public string Name => ItemType.Name;
-	public ColoredGlyph Glyph => ItemType.Glyph;
 	
 	public void Use(Actor instigator, Point target)
 	{

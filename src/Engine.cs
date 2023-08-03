@@ -105,4 +105,33 @@ public class Engine
 	{
 		RequestHistoryPane?.Invoke();
 	}
+
+	public void StartPlayerUseItem()
+	{
+		var item = Player.Inventory.HeldItem;
+		if (item == null) return;
+		
+		switch (item.ItemType.TargetingMode)
+		{
+			case TargetingMode.Self:
+				DoPlayerTurn(new UseItemAction(Player.Position, item));
+				break;
+			case TargetingMode.Tile:
+				var gridSelector = new GridSelector(Player.Position, item.ItemType.Range, World);
+				PushInputHandler(new UseItemInputHandler(gridSelector, item));
+				World.StartSelection(gridSelector);
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+	}
+
+	public void FinishPlayerUseItem()
+	{
+		// Pop use item input handler
+		PopInputHandler();
+		
+		// Disable visuals
+		World.FinishSelection();
+	}
 }

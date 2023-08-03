@@ -83,6 +83,9 @@ public class ItemLoader : BaseLoader<ItemType>
 					case "AUTOUSE":
 						tags.Add(ItemTag.GetTag<AutouseItemTag>());
 						break;
+					case "CONSUMABLE":
+						tags.Add(ItemTag.GetTag<ConsumableItemTag>());
+						break;
 					default:
 						throw new ArgumentException($"unknown item tag {tag}");
 				}
