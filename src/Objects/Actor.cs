@@ -61,6 +61,13 @@ public class Actor : GameObject
 		Health = Math.Min(Health + amount, ActorType.MaxHealth);
 		SendHealthUpdateEvent();
 	}
+
+	// Forces a heal, even on an enemy that is dead.
+	public void ForceHeal(int amount)
+	{
+		Health = Math.Min(Health + amount, ActorType.MaxHealth);
+		SendHealthUpdateEvent();
+	}
 	
 	public bool ExecuteAction(Action action)
 	{

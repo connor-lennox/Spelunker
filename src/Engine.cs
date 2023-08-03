@@ -75,6 +75,9 @@ public class Engine
 	{
 		foreach (var d in _dead)
 		{
+			// It's a weird edge case, but the enemy might have been revived.
+			if (d.Alive) continue;
+			
 			Logger.Log($"{d.ActorType.Name} has been slain!");
 			_actors.Remove(d);
 			World.RemoveActor(d);

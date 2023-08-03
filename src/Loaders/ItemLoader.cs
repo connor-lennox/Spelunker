@@ -53,6 +53,10 @@ public class ItemLoader : BaseLoader<ItemType>
 					// HEAL <amount>
 					effects.Add(new HealItemEffect(int.Parse(tokens[idx++])));
 					break;
+				case "RESURRECT":
+					// RESURRECT
+					effects.Add(new ResurrectItemEffect());
+					break;
 				case "EXPLODE":
 					// EXPLODE <damage> <radius>
 					effects.Add(new ExplodeItemEffect(int.Parse(tokens[idx++]), int.Parse(tokens[idx++])));
