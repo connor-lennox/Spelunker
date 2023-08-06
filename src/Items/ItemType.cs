@@ -29,6 +29,7 @@ public class ItemType
 		}
 	}
 	private static readonly Dictionary<string, ItemType> ItemTypes = new();
+	public static IEnumerable<ItemType> GetAll() => ItemTypes.Values;
 	public static ItemType Get(string name) => ItemTypes[name];
 
 	public static ItemType GetRandom()
@@ -87,13 +88,14 @@ public class ItemType
 
 		if (knowledge.HasKnowledge(KnowledgeType.Effects))
 		{
-			info.Add($"Effects: {UseEffects.Aggregate("", (w, n) => w + n + " ")}");
+			info.Add("Effects:");
+			info.AddRange(UseEffects.Select(effect => $"  {effect}"));
 		}
 
-		// TODO: Fix text overflow
 		if (knowledge.HasKnowledge(KnowledgeType.Tags))
 		{
-			info.Add($"Tags: {ItemTags.Aggregate("", (w, n) => w + n + " ")}");
+			info.Add($"Tags:");
+			info.AddRange(ItemTags.Select(tag => $"  {tag}"));
 		}
 
 		return info;
