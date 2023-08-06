@@ -10,4 +10,9 @@ public class AdmireItemEffect : ItemEffect
 		Logger.Log($"You admire the craftsmanship of the {item.Name}.");
 		return true;
 	}
+
+	public override string ToString()
+	{
+		return "ADMIRE";
+	}
 }

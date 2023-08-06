@@ -16,4 +16,9 @@ public class SpikyItemTag : ItemTag
 		// `null` instigator stops infinite spike damage chains
 		instigator.TakeDamage(_spikeDamage, null);
 	}
+
+	public override string ToString()
+	{
+		return $"SPIKY {_spikeDamage}";
+	}
 }

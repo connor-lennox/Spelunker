@@ -3,6 +3,7 @@ namespace Spelunker;
 [Flags]
 public enum KnowledgeType
 {
+	None = 0,
 	Description = 1,
 	MeleeDamage = 2,
 	Value = 4,
@@ -32,4 +33,5 @@ public class ItemKnowledge
 	}
 
 	public int ToInt() => (int)_knowledge;
+	public bool IsEmpty => _knowledge == KnowledgeType.None;
 }

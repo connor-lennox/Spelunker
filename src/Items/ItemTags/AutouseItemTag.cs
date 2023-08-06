@@ -6,4 +6,9 @@ public class AutouseItemTag : ItemTag
 	{
 		item.Use(instigator, target.Position);
 	}
+
+	public override string ToString()
+	{
+		return "AUTOUSE";
+	}
 }

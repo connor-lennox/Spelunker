@@ -60,4 +60,42 @@ public class ItemType
 		UseEffects = useEffects;
 		ItemTags = tags;
 	}
+
+	public List<string> GetInfo()
+	{
+		var knowledge = KnowledgeCatalog.GetKnowledge(this);
+		var info = new List<string>
+		{
+			Name,
+			""
+		};
+		
+		if (knowledge.IsEmpty)
+		{
+			info.Add("No known info");
+		}
+
+		if (knowledge.HasKnowledge(KnowledgeType.MeleeDamage))
+		{
+			info.Add($"Melee Damage: {MeleeDamage}");
+		}
+
+		if (knowledge.HasKnowledge(KnowledgeType.Value))
+		{
+			info.Add($"Value: {Value}");
+		}
+
+		if (knowledge.HasKnowledge(KnowledgeType.Effects))
+		{
+			info.Add($"Effects: {UseEffects.Aggregate("", (w, n) => w + n + " ")}");
+		}
+
+		// TODO: Fix text overflow
+		if (knowledge.HasKnowledge(KnowledgeType.Tags))
+		{
+			info.Add($"Tags: {ItemTags.Aggregate("", (w, n) => w + n + " ")}");
+		}
+
+		return info;
+	}
 }

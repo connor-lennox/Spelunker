@@ -16,4 +16,9 @@ public class DamageItemEffect : ItemEffect
 		targetActor.TakeDamage(_damage, instigator);
 		return true;
 	}
+
+	public override string ToString()
+	{
+		return $"DAMAGE {_damage}";
+	}
 }

@@ -6,4 +6,9 @@ public class ConsumableItemTag : ItemTag
 	{
 		holder.Inventory.BreakHeldItem();
 	}
+
+	public override string ToString()
+	{
+		return "CONSUMABLE";
+	}
 }

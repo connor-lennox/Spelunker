@@ -12,11 +12,6 @@ public class DroppedItem : GameObject
 	public override ColoredGlyph Glyph => ItemType.Glyph;
 	public override List<string> GetHoverInfo()
 	{
-		return new List<string>
-		{
-			ItemType.Name,
-			"",
-			"No known info"
-		};
+		return ItemType.GetInfo();
 	}
 }

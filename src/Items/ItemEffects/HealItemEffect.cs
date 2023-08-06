@@ -17,4 +17,9 @@ public class HealItemEffect : ItemEffect
 		targetActor.HealDamage(_amount);
 		return true;
 	}
+
+	public override string ToString()
+	{
+		return $"HEAL {_amount}";
+	}
 }

@@ -13,4 +13,9 @@ public class FragileItemTag : ItemTag
 		Logger.Log($"The {item.Name} broke!");
 		holder.Inventory.BreakHeldItem();
 	}
+
+	public override string ToString()
+	{
+		return "FRAGILE";
+	}
 }

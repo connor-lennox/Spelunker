@@ -16,4 +16,9 @@ public class ResurrectItemEffect : ItemEffect
 		Logger.Log($"The {targetActor.ActorType.Name} was resurrected!");
 		return true;
 	}
+
+	public override string ToString()
+	{
+		return "RESURRECT";
+	}
 }
