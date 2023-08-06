@@ -86,13 +86,13 @@ public class ItemLoader : BaseLoader<ItemType>
 			switch (tagId.ToUpper())
 			{
 				case "FRAGILE":
-					tags.Add(ItemTag.GetTag<FragileItemTag>());
+					tags.Add(new FragileItemTag());
 					break;
 				case "AUTOUSE":
-					tags.Add(ItemTag.GetTag<AutouseItemTag>());
+					tags.Add(new AutouseItemTag());
 					break;
 				case "CONSUMABLE":
-					tags.Add(ItemTag.GetTag<ConsumableItemTag>());
+					tags.Add(new ConsumableItemTag());
 					break;
 				case "SPIKY":
 					tags.Add(new SpikyItemTag(int.Parse(tokens[idx++])));
