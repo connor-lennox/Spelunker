@@ -33,6 +33,17 @@ public class StatusConsole : Console
 			var slotColor = _inventory.CurrentlyHeld == i ? Color.Yellow : Color.White;
 			Surface.Print(0, 3+i, $"{(i + 1) % 10}: {slotText}", slotColor);
 		}
+
+		var heldInfo = _inventory.HeldItem?.ItemType.GetInfo();
+		if (heldInfo != null)
+		{
+			var heldStatusTop = _inventory.MaxSize + 4;
+			Surface.Print(0, heldStatusTop, "Held:");
+			for (var i = 0; i < heldInfo.Count; i++)
+			{
+				Surface.Print(0, heldStatusTop + 1 + i, heldInfo[i]);
+			}
+		}
 	}
 	
 	public void RegisterPlayer(Actor actor)
@@ -44,6 +55,11 @@ public class StatusConsole : Console
 		actor.OnHealthChanged += UpdateHealth;
 		actor.Inventory.OnInventoryChanged += UpdateInventory;
 		
+		Redraw();
+	}
+
+	public void ForceRedraw()
+	{
 		Redraw();
 	}
 	
