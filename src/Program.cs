@@ -14,6 +14,8 @@ var actorLoader = new ActorLoader();
 var actors = actorLoader.Load("data/actors.dat");
 ActorType.RegisterActors(actors);
 
+KnowledgeCatalog.LoadKnowledge();
+
 Game.Create(gameStartup);
 Game.Instance.Run();
 Game.Instance.Dispose();

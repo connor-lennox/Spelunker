@@ -14,10 +14,11 @@ public static class KnowledgePersistence
 	
 	public static void SaveKnowledge(string filepath, Dictionary<ItemType, ItemKnowledge> knowledge)
 	{
+		Directory.CreateDirectory(Path.GetDirectoryName(filepath));
 		using var writer = new StreamWriter(filepath);
 		foreach (var pair in knowledge)
 		{
-			writer.WriteLine($"{pair.Key.Name} {pair.Value.ToInt()}");
+			writer.WriteLine($"{pair.Key.Name} | {pair.Value.ToInt()}");
 		}
 	}
 
@@ -29,10 +30,15 @@ public static class KnowledgePersistence
 	public static Dictionary<ItemType, ItemKnowledge> LoadKnowledge(string filepath)
 	{
 		var dict = new Dictionary<ItemType, ItemKnowledge>();
+		if (!File.Exists(filepath))
+		{
+			return dict;
+		}
+		
 		using var reader = new StreamReader(filepath);
 		while (reader.ReadLine() is { } line)
 		{
-			var parts = line.Split();
+			var parts = line.Split('|', StringSplitOptions.TrimEntries);
 			dict[ItemType.Get(parts[0])] = new ItemKnowledge(int.Parse(parts[1]));
 		}
 

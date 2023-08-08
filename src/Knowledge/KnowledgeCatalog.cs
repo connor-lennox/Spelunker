@@ -4,6 +4,11 @@ public static class KnowledgeCatalog
 {
 	private static Dictionary<ItemType, ItemKnowledge> ItemKnowledge = new();
 
+	public static void SaveKnowledge()
+	{
+		KnowledgePersistence.SaveKnowledge(ItemKnowledge);
+	}
+	
 	public static void LoadKnowledge()
 	{
 		ItemKnowledge = KnowledgePersistence.LoadKnowledge();
