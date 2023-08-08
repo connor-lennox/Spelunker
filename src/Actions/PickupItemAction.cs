@@ -10,11 +10,13 @@ public class PickupItemAction : PositionalAction
 	{
 		var droppedItem = instigator.World?.ItemAtPoint(_targetPoint);
 		if (droppedItem == null) return false;
-		
-		if (instigator.Inventory.AddItem(new Item(droppedItem.ItemType)))
+
+		var item = new Item(droppedItem.ItemType);
+		if (instigator.Inventory.AddItem(item))
 		{
 			Logger.Log($"You pick up the {droppedItem.ItemType.Name}.");
 			instigator.World.RemoveItem(droppedItem);
+			item.OnPickup(instigator);
 			return true;
 		}
 

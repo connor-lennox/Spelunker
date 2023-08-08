@@ -25,6 +25,11 @@ public class Item
 		{
 			tag.OnUse(instigator, this);
 		}
+
+		if (instigator.Faction == Faction.Player)
+		{
+			KnowledgeCatalog.GrantKnowledge(ItemType, KnowledgeType.Effects);
+		}
 	}
 
 	public void OnAttack(Actor instigator, Actor target)
@@ -32,6 +37,11 @@ public class Item
 		foreach (var tag in ItemType.ItemTags)
 		{
 			tag.OnAttack(instigator, this, target);
+		}
+		
+		if (instigator.Faction == Faction.Player)
+		{
+			KnowledgeCatalog.GrantKnowledge(ItemType, KnowledgeType.MeleeDamage);
 		}
 	}
 
@@ -48,6 +58,13 @@ public class Item
 		foreach (var tag in ItemType.ItemTags)
 		{
 			tag.OnPickup(holder, this);
+		}
+		
+		if (holder.Faction == Faction.Player)
+		{
+			KnowledgeCatalog.GrantKnowledge(ItemType, KnowledgeType.Description);
+			KnowledgeCatalog.GrantKnowledge(ItemType, KnowledgeType.Tags);
+			KnowledgeCatalog.GrantKnowledge(ItemType, KnowledgeType.Value);
 		}
 	}
 }

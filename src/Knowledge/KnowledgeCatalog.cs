@@ -28,4 +28,9 @@ public static class KnowledgeCatalog
 			ItemKnowledge[item] = new ItemKnowledge(127);
 		}
 	}
+
+	public static void GrantKnowledge(ItemType itemType, KnowledgeType knowledgeType)
+	{
+		GetKnowledge(itemType).AddKnowledge(knowledgeType);
+	}
 }
