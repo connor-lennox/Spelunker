@@ -2,35 +2,37 @@ namespace Spelunker;
 
 public static class KnowledgeCatalog
 {
-	private static Dictionary<ItemType, ItemKnowledge> ItemKnowledge = new();
+	private static Dictionary<ItemType, ItemKnowledge> _itemKnowledge = new();
 
 	public static void SaveKnowledge()
 	{
-		KnowledgePersistence.SaveKnowledge(ItemKnowledge);
+		KnowledgePersistence.SaveKnowledge(_itemKnowledge);
 	}
 	
 	public static void LoadKnowledge()
 	{
-		ItemKnowledge = KnowledgePersistence.LoadKnowledge();
+		_itemKnowledge = KnowledgePersistence.LoadKnowledge();
 	}
 	
 	public static ItemKnowledge GetKnowledge(ItemType itemType)
 	{
-		ItemKnowledge.TryAdd(itemType, new ItemKnowledge());
-		return ItemKnowledge[itemType];
+		_itemKnowledge.TryAdd(itemType, new ItemKnowledge());
+		return _itemKnowledge[itemType];
 	}
 
 	public static void GrantAllKnowledge()
 	{
-		ItemKnowledge.Clear();
+		_itemKnowledge.Clear();
 		foreach (var item in ItemType.GetAll())
 		{
-			ItemKnowledge[item] = new ItemKnowledge(127);
+			_itemKnowledge[item] = new ItemKnowledge(127);
 		}
 	}
 
 	public static void GrantKnowledge(ItemType itemType, KnowledgeType knowledgeType)
 	{
 		GetKnowledge(itemType).AddKnowledge(knowledgeType);
+		// To allow knowledge to display properly right away, force redraw the status console:
+		StatusConsole.Instance?.ForceRedraw();
 	}
 }

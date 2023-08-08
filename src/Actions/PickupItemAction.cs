@@ -17,8 +17,6 @@ public class PickupItemAction : PositionalAction
 			Logger.Log($"You pick up the {droppedItem.ItemType.Name}.");
 			instigator.World!.RemoveItem(droppedItem);
 			item.OnPickup(instigator);
-			// To allow "On Pickup" knowledge to display properly, force redraw the status console:
-			StatusConsole.Instance?.ForceRedraw();
 			return true;
 		}
 
