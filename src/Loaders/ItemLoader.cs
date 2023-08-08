@@ -97,6 +97,9 @@ public class ItemLoader : BaseLoader<ItemType>
 				case "SPIKY":
 					tags.Add(new SpikyItemTag(int.Parse(tokens[idx++])));
 					break;
+				case "DRAINING":
+					tags.Add(new DrainingItemTag(int.Parse(tokens[idx++])));
+					break;
 				default:
 					throw new ArgumentException($"unknown item tag '{tagId}'");
 			}
