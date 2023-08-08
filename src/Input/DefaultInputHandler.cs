@@ -76,6 +76,13 @@ public class DefaultInputHandler : InputHandler
 			engine.OpenHistory();
 			return true;
 		}
+		
+		// Descend stairs
+		if (keyboard.IsKeyPressed(Keys.OemPeriod))
+		{
+			engine.DoPlayerTurn(new DescendStairsAction());
+			return true;
+		}
 
 		return false;
 	}

@@ -129,6 +129,11 @@ public class World
 	{
 		return point.X >= 0 && point.X < Width && point.Y >= 0 && point.Y < Height;
 	}
+
+	public TileType TileAtPoint(Point point)
+	{
+		return _tiles[point.X, point.Y];
+	}
 	
 	public bool TilePassable(Point point)
 	{

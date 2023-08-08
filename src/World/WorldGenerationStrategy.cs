@@ -58,6 +58,9 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 			SpawnEnemies(world, room);
 			SpawnItems(world, room);
 		}
+
+		var stairsLocation = rooms.Last().Center();
+		tiles[stairsLocation.X, stairsLocation.Y] = TileType.Stairs;
 		
 		return world;
 	}

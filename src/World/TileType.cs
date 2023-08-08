@@ -14,6 +14,12 @@ public class TileType
 		new ColoredGlyph(new Color(30, 30, 30), Color.TransparentBlack, '#'),
 		false,
 		false);
+
+	public static readonly TileType Stairs = new(
+		new ColoredGlyph(Color.Plum, Color.TransparentBlack, '>'),
+		new ColoredGlyph(new Color(30, 30, 30), Color.TransparentBlack, '>'),
+		true,
+		true);
 	
 	public readonly ColoredGlyph VisibleGlyph;
 	public readonly ColoredGlyph SeenGlyph;
