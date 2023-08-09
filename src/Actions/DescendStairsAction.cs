@@ -4,12 +4,13 @@ public class DescendStairsAction : Action
 {
 	public override bool Execute(Actor instigator)
 	{
-		if (instigator.World.TileAtPoint(instigator.Position) != TileType.Stairs)
+		if (instigator.World!.TileAtPoint(instigator.Position) != TileType.Stairs)
 		{
 			return false;
 		}
 		
 		Logger.Log($"{instigator.ActorType.Name} descends the stairs...");
+		instigator.World.MoveToNextMap();
 		return true;
 	}
 }

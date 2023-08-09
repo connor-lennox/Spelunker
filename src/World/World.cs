@@ -4,6 +4,8 @@ namespace Spelunker;
 
 public class World
 {
+	private readonly WorldGenerator _worldGenerator;
+	
 	public int Width { get; }
 	public int Height { get; }
 	private readonly TileType[,] _tiles;
@@ -17,16 +19,48 @@ public class World
 
 	private GridSelector? _selector;
 
-	public World(TileType[,] tiles, int width, int height, Point playerSpawn)
+	public World(WorldGenerator generator)
 	{
-		Width = width;
-		Height = height;
-		_tiles = tiles;
+		_worldGenerator = generator;
+		Width = generator.Width;
+		Height = generator.Height;
+		_tiles = new TileType[Width, Height];
 		
 		Player = new Actor(ActorType.Get("Player"), Faction.Player, null);
-		AddActor(Player, playerSpawn);
-		
 		_playerViewshed = new Viewshed(this);
+		
+		SwapToMap(_worldGenerator.BuildMap());
+	}
+
+	public void MoveToNextMap()
+	{
+		SwapToMap(_worldGenerator.BuildMap());
+	}
+
+	private void SwapToMap(Map map)
+	{
+		for (var x = 0; x < Width; x++)
+		{
+			for (var y = 0; y < Height; y++)
+			{
+				_tiles[x, y] = map.Tiles[x, y];
+			}
+		}
+
+		Actors.Clear();
+		foreach (var (position, actor) in map.Actors)
+		{
+			AddActor(actor, position);
+		}
+		AddActor(Player, map.PlayerSpawnPoint);
+		
+		Items.Clear();
+		foreach (var (position, item) in map.DroppedItems)
+		{
+			AddItem(item, position);
+		}
+		
+		_playerViewshed.Reset();
 		_playerViewshed.CalculateFrom(Player.Position);
 	}
 

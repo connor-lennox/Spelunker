@@ -2,19 +2,19 @@ namespace Spelunker;
 
 public class WorldGenerator
 {
-	private WorldGenerationStrategy _strategy;
-	private int _width;
-	private int _height;
+	private MapGenerationStrategy _strategy;
+	public readonly int Width;
+	public readonly int Height;
 	
-	public WorldGenerator(int width, int height, WorldGenerationStrategy strategy)
+	public WorldGenerator(int width, int height, MapGenerationStrategy strategy)
 	{
-		_width = width;
-		_height = height;
+		Width = width;
+		Height = height;
 		_strategy = strategy;
 	}
 
-	public World BuildWorld()
+	public Map BuildMap()
 	{
-		return _strategy.BuildWorld(_width, _height);
+		return _strategy.BuildMap(Width, Height);
 	}
 }

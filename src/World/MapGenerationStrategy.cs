@@ -1,26 +1,26 @@
 namespace Spelunker;
 
-public abstract class WorldGenerationStrategy
+public abstract class MapGenerationStrategy
 {
 	protected readonly Random Random = new();
 	
-	public abstract World BuildWorld(int width, int height);
+	public abstract Map BuildMap(int width, int height);
 }
 
-public class RoomWorldGenerationStrategy : WorldGenerationStrategy
+public class RoomMapGenerationStrategy : MapGenerationStrategy
 {
 	private readonly int _numRooms;
 	private readonly int _roomMinDim;
 	private readonly int _roomMaxDim;
 
-	public RoomWorldGenerationStrategy(int numRooms, int roomMinDim, int roomMaxDim)
+	public RoomMapGenerationStrategy(int numRooms, int roomMinDim, int roomMaxDim)
 	{
 		_numRooms = numRooms;
 		_roomMinDim = roomMinDim;
 		_roomMaxDim = roomMaxDim;
 	}
 
-	public override World BuildWorld(int width, int height)
+	public override Map BuildMap(int width, int height)
 	{
 		var tiles = new TileType[width, height];
 		for (var x = 0; x < width; x++)
@@ -51,18 +51,18 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 			TunnelBetween(tiles, rooms[i], rooms[i+1]);
 		}
 
-		var world = new World(tiles, width, height, rooms[0].Center());
+		var map = new Map(tiles, rooms[0].Center());
 
 		foreach (var room in rooms)
 		{
-			SpawnEnemies(world, room);
-			SpawnItems(world, room);
+			SpawnEnemies(map, room);
+			SpawnItems(map, room);
 		}
 
 		var stairsLocation = rooms.Last().Center();
 		tiles[stairsLocation.X, stairsLocation.Y] = TileType.Stairs;
 		
-		return world;
+		return map;
 	}
 
 	private Room RandomRoom(int dungeonWidth, int dungeonHeight)
@@ -83,30 +83,30 @@ public class RoomWorldGenerationStrategy : WorldGenerationStrategy
 		}
 	}
 
-	private void SpawnEnemies(World world, Room room)
+	private void SpawnEnemies(Map map, Room room)
 	{
 		var numEnemies = Random.Next(3);
 		var candidatePoints = room.InternalPoints().ToArray();
 		for (var i = 0; i < numEnemies; i++)
 		{
 			var p = candidatePoints[Random.Next(candidatePoints.Length)];
-			if (world.ActorAtPoint(p) == null)
+			if (map.CanPlaceActor(p))
 			{
-				world.AddActor(new Actor(ActorType.GetRandom(), Faction.Enemy, new ChargerAgent()), p);
+				map.AddActor(new Actor(ActorType.GetRandom(), Faction.Enemy, new ChargerAgent()), p);
 			}
 		}
 	}
 
-	private void SpawnItems(World world, Room room)
+	private void SpawnItems(Map map, Room room)
 	{
 		var numItems = Random.Next(1, 4);
 		var candidatePoints = room.InternalPoints().ToArray();
 		for (var i = 0; i < numItems; i++)
 		{
 			var p = candidatePoints[Random.Next(candidatePoints.Length)];
-			if (world.ItemAtPoint(p) == null)
+			if (map.CanPlaceItem(p))
 			{
-				world.AddItem(new DroppedItem(ItemType.GetRandom()), p);
+				map.AddItem(new DroppedItem(ItemType.GetRandom()), p);
 			}
 		}
 	}

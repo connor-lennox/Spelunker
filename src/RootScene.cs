@@ -14,7 +14,9 @@ class RootScene : ScreenObject
     
     public RootScene()
     {
-        _world = new WorldGenerator(GameSettings.ScreenWorldWidth, GameSettings.ScreenWorldHeight, new RoomWorldGenerationStrategy(9, 5, 11)).BuildWorld();
+        _world = new World(
+            new WorldGenerator(GameSettings.ScreenWorldWidth, GameSettings.ScreenWorldHeight, new RoomMapGenerationStrategy(9, 5, 11))
+        );
         
         _worldSurface = new WorldSurface(GameSettings.ScreenWorldWidth, GameSettings.ScreenWorldHeight, _world);
         _worldSurface.OnHoverInfoUpdate += DrawHoverInfo;
