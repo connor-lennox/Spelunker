@@ -61,6 +61,10 @@ public class ItemLoader : BaseLoader<ItemType>
 					// EXPLODE <damage> <radius>
 					effects.Add(new ExplodeItemEffect(int.Parse(tokens[idx++]), int.Parse(tokens[idx++])));
 					break;
+				case "BLINK":
+					// BLINK
+					effects.Add(new BlinkItemEffect());
+					break;
 				case "ADMIRE":
 					effects.Add(new AdmireItemEffect());
 					break;
