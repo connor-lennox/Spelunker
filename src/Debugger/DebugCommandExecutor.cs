@@ -26,6 +26,9 @@ public static class DebugCommandExecutor
 			case "IDENTIFY":
 				RunIdentifyCommand(string.Join(' ', tokens[1..]));
 				break;
+			case "REVEAL":
+				RunRevealCommand();
+				break;
 			default:
 				System.Console.WriteLine($"Unknown command: {tokens[0]}");
 				break;
@@ -54,5 +57,10 @@ public static class DebugCommandExecutor
 		}
 		
 		KnowledgeCatalog.GrantItemKnowledge(itemType);
+	}
+
+	private static void RunRevealCommand()
+	{
+		_engine.World.RevealMap();
 	}
 }

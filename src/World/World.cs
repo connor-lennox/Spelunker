@@ -166,4 +166,9 @@ public class World
 	{
 		_selector = null;
 	}
+
+	public void RevealMap()
+	{
+		_playerViewshed.RevealAll();
+	}
 }

@@ -21,6 +21,17 @@ public class Viewshed
 	public VisibilityStatus this[Point p] => _map[p.X, p.Y];
 	public VisibilityStatus this[int x, int y] => _map[x, y];
 
+	public void RevealAll()
+	{
+		for (var x = 0; x < _map.GetLength(0); x++)
+		{
+			for (var y = 0; y < _map.GetLength(1); y++)
+			{
+				_map[x, y] = VisibilityStatus.Visible;
+			}
+		}
+	}
+	
 	public void CalculateFrom(Point center)
 	{
 		for (var octant = 0; octant < 8; octant++)
