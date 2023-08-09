@@ -5,6 +5,7 @@ namespace Spelunker;
 public class Engine
 {
 	public event System.Action? RequestHistoryPane;
+	public event System.Action? RequestDebugConsole;
 	
 	public World World;
 
@@ -136,5 +137,16 @@ public class Engine
 		
 		// Disable visuals
 		World.FinishSelection();
+	}
+
+	public void OpenDebugConsole()
+	{
+		RequestDebugConsole?.Invoke();
+	}
+
+	public void CloseDebugConsole()
+	{
+		// Pop debug input handler
+		PopInputHandler();
 	}
 }

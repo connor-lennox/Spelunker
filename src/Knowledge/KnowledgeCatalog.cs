@@ -20,6 +20,12 @@ public static class KnowledgeCatalog
 		return _itemKnowledge[itemType];
 	}
 
+	public static void GrantItemKnowledge(ItemType itemType)
+	{
+		_itemKnowledge[itemType] = new ItemKnowledge(127);
+		StatusConsole.Instance?.ForceRedraw();
+	}
+	
 	public static void GrantAllKnowledge()
 	{
 		_itemKnowledge.Clear();

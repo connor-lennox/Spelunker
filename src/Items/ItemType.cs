@@ -25,12 +25,12 @@ public class ItemType
 	{
 		foreach (var i in itemTypes)
 		{
-			ItemTypes[i.Name] = i;
+			ItemTypes[i.Name.ToUpper()] = i;
 		}
 	}
 	private static readonly Dictionary<string, ItemType> ItemTypes = new();
 	public static IEnumerable<ItemType> GetAll() => ItemTypes.Values;
-	public static ItemType Get(string name) => ItemTypes[name];
+	public static ItemType? Get(string name) => ItemTypes.TryGetValue(name.ToUpper(), out var type) ? type : null;
 
 	public static ItemType GetRandom()
 	{

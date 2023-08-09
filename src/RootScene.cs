@@ -5,14 +5,12 @@ namespace Spelunker.Scenes;
 class RootScene : ScreenObject
 {
     private World _world;
-
     private Engine _engine;
-
     private WorldSurface _worldSurface;
-
+    
     private HoverInfoConsole _hoverInfoConsole;
-
     private HistoryConsole _historyConsole;
+    private DebugConsole _debugConsole;
     
     public RootScene()
     {
@@ -24,6 +22,7 @@ class RootScene : ScreenObject
         
         _engine = new Engine();
         _engine.RequestHistoryPane += OpenHistoryPane;
+        _engine.RequestDebugConsole += OpenDebugConsole;
         _engine.LoadWorld(_world);
         
         var statusConsole = new StatusConsole(GameSettings.GameWidth - GameSettings.ScreenWorldWidth - 2,
@@ -49,7 +48,12 @@ class RootScene : ScreenObject
         _hoverInfoConsole.Hide();
         Children.Add(_hoverInfoConsole);
 
-        
+        DebugCommandExecutor.Setup(_engine);
+        _debugConsole = new DebugConsole(GameSettings.ScreenWorldWidth - 2);
+        _debugConsole.Position = new Point(1, 1);
+        _debugConsole.IsVisible = false;
+        Children.Add(_debugConsole);
+
         Logger.Log("The game begins...");
     }
 
@@ -82,6 +86,10 @@ class RootScene : ScreenObject
         _historyConsole.IsVisible = true;
         _engine.PushInputHandler(new HistoryInputHandler(_historyConsole));
     }
-    
-    
+
+    public void OpenDebugConsole()
+    {
+        _debugConsole.Show();
+        _engine.PushInputHandler(new DebugInputHandler(_debugConsole));
+    }
 }

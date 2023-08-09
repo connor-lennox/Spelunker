@@ -77,6 +77,13 @@ public class DefaultInputHandler : InputHandler
 			return true;
 		}
 		
+		// Open debug console
+		if (keyboard.IsKeyPressed(Keys.OemTilde))
+		{
+			engine.OpenDebugConsole();
+			return true;
+		}
+		
 		// Descend stairs
 		if (keyboard.IsKeyPressed(Keys.OemPeriod))
 		{
