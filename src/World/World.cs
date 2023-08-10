@@ -4,6 +4,8 @@ namespace Spelunker;
 
 public class World
 {
+	public event System.Action? MapChanged;
+	
 	private readonly WorldGenerator _worldGenerator;
 	
 	public int Width { get; }
@@ -62,6 +64,8 @@ public class World
 		
 		_playerViewshed.Reset();
 		_playerViewshed.CalculateFrom(Player.Position);
+		
+		MapChanged?.Invoke();
 	}
 
 	public void AddActor(Actor actor, Point position)

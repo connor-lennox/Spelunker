@@ -26,13 +26,13 @@ public class Engine
 	public void LoadWorld(World world)
 	{
 		World = world;
+		World.MapChanged += OnWorldMapChanged;
+		
 		Player = world.Player;
-		
-		// Fetch all actors from the World and assign the basic death event
-		_actors = world.Actors;
-		_actors.ForEach(a => a.OnDeath += () => ActorDied(a));
-		
 		Player.OnDeath += GameOver;
+		Player.OnDeath += () => ActorDied(Player);
+		
+		OnWorldMapChanged();
 	}
 
 	public bool ReceiveInput(Keyboard keyboard)
@@ -40,6 +40,14 @@ public class Engine
 		return InputHandler.HandleInput(this, keyboard);
 	}
 
+	private void OnWorldMapChanged()
+	{
+		_actors = World.Actors;
+		foreach (var a in _actors.Where(a => a != Player)) {
+			a.OnDeath += () => ActorDied(a);
+		}
+	}
+	
 	public void DoPlayerTurn(Action playerAction)
 	{
 		if (!playerAction.Execute(Player))
