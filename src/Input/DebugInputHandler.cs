@@ -77,7 +77,7 @@ public class DebugInputHandler : InputHandler
 		}
 		
 		// Cancel
-		if (keyboard.IsKeyPressed(Keys.Escape))
+		if (keyboard.IsKeyPressed(Keys.Escape) || keyboard.IsKeyPressed(Keys.OemTilde))
 		{
 			_debugConsole.Hide();
 			engine.CloseDebugConsole();
