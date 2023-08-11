@@ -46,6 +46,7 @@ public class Engine
 		foreach (var a in _actors.Where(a => a != Player)) {
 			a.OnDeath += () => ActorDied(a);
 		}
+		StatusConsole.Instance?.ForceRedraw();
 	}
 	
 	public void DoPlayerTurn(Action playerAction)

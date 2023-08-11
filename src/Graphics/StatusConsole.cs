@@ -9,6 +9,7 @@ public class StatusConsole : Console
 	private int _currentHealth;
 	private int _maxHealth;
 	private Inventory _inventory;
+	private World _world;
 	
 	public StatusConsole(int width, int height) : base(width, height)
 	{
@@ -24,14 +25,16 @@ public class StatusConsole : Console
 	{
 		Surface.Clear();
 		
-		Surface.Print(0, 0, $"HP: {_currentHealth}/{_maxHealth}");
+		Surface.Print(0, 0, $"Depth: {_world.CurrentDepth}");
 		
-		Surface.Print(0, 2, "Inventory:");
+		Surface.Print(0, 2, $"HP: {_currentHealth}/{_maxHealth}");
+		
+		Surface.Print(0, 4, "Inventory:");
 		for (var i = 0; i < _inventory.MaxSize; i++)
 		{
 			var slotText = _inventory.Items.Count > i ? _inventory.Items[i].Name : "";
 			var slotColor = _inventory.CurrentlyHeld == i ? Color.Yellow : Color.White;
-			Surface.Print(0, 3+i, $"{(i + 1) % 10}: {slotText}", slotColor);
+			Surface.Print(0, 5+i, $"{(i + 1) % 10}: {slotText}", slotColor);
 		}
 
 		var heldInfo = _inventory.HeldItem?.ItemType.GetInfo();
@@ -51,6 +54,7 @@ public class StatusConsole : Console
 		_currentHealth = actor.Health;
 		_maxHealth = actor.ActorType.MaxHealth;
 		_inventory = actor.Inventory;
+		_world = actor.World;
 		
 		actor.OnHealthChanged += UpdateHealth;
 		actor.Inventory.OnInventoryChanged += UpdateInventory;

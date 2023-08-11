@@ -7,6 +7,8 @@ public class World
 	public event System.Action? MapChanged;
 	
 	private readonly WorldGenerator _worldGenerator;
+
+	public int CurrentDepth { get; private set; }
 	
 	public int Width { get; }
 	public int Height { get; }
@@ -31,12 +33,13 @@ public class World
 		Player = new Actor(ActorType.Get("Player"), Faction.Player, null);
 		_playerViewshed = new Viewshed(this);
 		
-		SwapToMap(_worldGenerator.BuildMap());
+		MoveToNextMap();
 	}
 
 	public void MoveToNextMap()
 	{
 		SwapToMap(_worldGenerator.BuildMap());
+		CurrentDepth += 1;
 	}
 
 	private void SwapToMap(Map map)
