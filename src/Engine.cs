@@ -56,7 +56,7 @@ public class Engine
 			return;
 		}
 		World.UpdateVisibility();
-		foreach (var ally in _actors.Where(ally => ally.Faction == Faction.Player && ally != Player))
+		foreach (var ally in _actors.Where(ally => ally.Faction == Faction.Ally && ally != Player))
 		{
 			ally.GetAgentAction().Execute(ally);
 		}

@@ -31,7 +31,7 @@ public class World
 		Height = generator.Height;
 		_tiles = new TileType[Width, Height];
 		
-		Player = new Actor(ActorType.Get("Player"), Faction.Player, null);
+		Player = new Actor(ActorType.Get("Player"), Faction.Ally, null);
 		_playerViewshed = new Viewshed(this);
 		
 		MoveToNextMap();
