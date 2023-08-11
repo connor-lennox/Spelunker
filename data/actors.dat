@@ -1,4 +1,5 @@
-// Name         ; Glyph ; Color             ; Health    ; InventorySize ; SpawnWeight
-Player          ; @     ; Yellow            ; 30        ; 10            ; 0
-Bandit          ; b     ; White             ; 10        ; 1             ; 8
-Troll           ; T     ; Green             ; 16        ; 1             ; 2
+// Name         ; Glyph ; Color             ; Health    ; MeleeDamage   ; InventorySize ; SpawnWeight
+Player          ; @     ; Yellow            ; 30        ; 1             ; 10            ; 0
+Bandit          ; b     ; White             ; 10        ; 1             ; 1             ; 8
+Troll           ; T     ; Green             ; 16        ; 3             ; 1             ; 2
+Genie           ; G     ; Aqua              ; 15        ; 2             ; 1             ; 0

@@ -65,6 +65,10 @@ public class ItemLoader : BaseLoader<ItemType>
 					// BLINK
 					effects.Add(new BlinkItemEffect());
 					break;
+				case "SUMMON":
+					// SUMMON <actor type>
+					effects.Add(new SummonItemEffect(ActorType.Get(tokens[idx++])));
+					break;
 				case "ADMIRE":
 					effects.Add(new AdmireItemEffect());
 					break;

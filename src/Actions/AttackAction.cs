@@ -24,8 +24,8 @@ public class AttackAction : PositionalAction
 		}
 		else
 		{
-			Logger.Log($"{instigator.ActorType.Name} punches the {target.ActorType.Name} for 1 damage!");
-			target.TakeDamage(1, instigator);
+			Logger.Log($"{instigator.ActorType.Name} punches the {target.ActorType.Name} for {instigator.ActorType.MeleeDamage} damage!");
+			target.TakeDamage(instigator.ActorType.MeleeDamage, instigator);
 		}
 		
 		return true;

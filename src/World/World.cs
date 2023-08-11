@@ -5,6 +5,7 @@ namespace Spelunker;
 public class World
 {
 	public event System.Action? MapChanged;
+	public event Action<Actor>? ActorAdded;
 	
 	private readonly WorldGenerator _worldGenerator;
 
@@ -75,6 +76,7 @@ public class World
 	{
 		SetupGameObject(actor, position);
 		Actors.Add(actor);
+		ActorAdded?.Invoke(actor);
 	}
 
 	public void AddItem(DroppedItem item, Point position)

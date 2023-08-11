@@ -27,10 +27,13 @@ public class Engine
 	{
 		World = world;
 		World.MapChanged += OnWorldMapChanged;
+		World.ActorAdded += a => a.OnDeath += () => ActorDied(a);
 		
 		Player = world.Player;
 		Player.OnDeath += GameOver;
 		Player.OnDeath += () => ActorDied(Player);
+		
+		World.Actors.ForEach(a => a.OnDeath += () => ActorDied(a));
 		
 		OnWorldMapChanged();
 	}
@@ -43,9 +46,6 @@ public class Engine
 	private void OnWorldMapChanged()
 	{
 		_actors = World.Actors;
-		foreach (var a in _actors.Where(a => a != Player)) {
-			a.OnDeath += () => ActorDied(a);
-		}
 		StatusConsole.Instance?.ForceRedraw();
 	}
 	
@@ -91,6 +91,12 @@ public class Engine
 			Logger.Log($"{d.ActorType.Name} has been slain!");
 			_actors.Remove(d);
 			World.RemoveActor(d);
+
+			// Held items are dropped on death
+			if (d.Inventory.HeldItem != null)
+			{
+				World.AddItem(new DroppedItem(d.Inventory.HeldItem.ItemType), d.Position);
+			}
 		}
 		
 		_dead.Clear();
