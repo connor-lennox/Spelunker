@@ -17,6 +17,12 @@ public class SummonItemEffect : ItemEffect
 		}
 		
 		instigator.World.AddActor(new Actor(_actorType, instigator.Faction, new ChargerAgent()), target);
+		Logger.Log($"The {_actorType.Name} appears!");
 		return true;
+	}
+
+	public override string ToString()
+	{
+		return $"SUMMON {_actorType.Name.ToUpper()}";
 	}
 }
