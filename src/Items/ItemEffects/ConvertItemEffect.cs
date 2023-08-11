@@ -6,8 +6,16 @@ public class ConvertItemEffect : ItemEffect
 	{
 		if (instigator.World?.ActorAtPoint(target) is not { } targetActor) return false;
 
-		targetActor.Faction = instigator.Faction;
 		Logger.Log("Wololo!");
+
+		// You can't convert the player. Not allowed.
+		if (targetActor.World.Player == targetActor)
+		{
+			Logger.Log("The Player resisted conversion!");
+			return true;
+		}
+		
+		targetActor.Faction = instigator.Faction;
 		Logger.Log($"The {targetActor.ActorType.Name} became an {instigator.Faction}!");
 		return true;
 	}
