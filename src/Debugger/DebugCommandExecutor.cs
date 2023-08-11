@@ -30,7 +30,7 @@ public static class DebugCommandExecutor
 				RunRevealCommand();
 				break;
 			default:
-				System.Console.WriteLine($"Unknown command: {tokens[0]}");
+				Logger.Log($"Unknown command: \"{tokens[0]}\".");
 				break;
 		}
 	}
@@ -40,11 +40,11 @@ public static class DebugCommandExecutor
 		var itemType = ItemType.Get(itemName);
 		if (itemType == null)
 		{
-			System.Console.WriteLine($"Unknown item type \"{itemName}\"");
+			Logger.Log($"Unknown item type \"{itemName}\"");
 			return;
 		}
 		_engine.Player.Inventory.AddItem(new Item(itemType));
-		System.Console.WriteLine($"Gave a {itemType.Name} to the player.");
+		Logger.Log($"Gave a {itemType.Name} to the player.");
 	}
 
 	private static void RunIdentifyCommand(string itemName)
@@ -52,15 +52,17 @@ public static class DebugCommandExecutor
 		var itemType = ItemType.Get(itemName);
 		if (itemType == null)
 		{
-			System.Console.WriteLine($"Unknown item type \"{itemName}\"");
+			Logger.Log($"Unknown item type \"{itemName}\".");
 			return;
 		}
 		
+		Logger.Log($"Granted all knowledge of {itemName}.");
 		KnowledgeCatalog.GrantItemKnowledge(itemType);
 	}
 
 	private static void RunRevealCommand()
 	{
+		Logger.Log("Revealed map");
 		_engine.World.RevealMap();
 	}
 }
