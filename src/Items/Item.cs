@@ -26,7 +26,7 @@ public class Item
 			tag.OnUse(instigator, this);
 		}
 
-		if (instigator.Faction == Faction.Player)
+		if (instigator.Faction == Faction.Ally)
 		{
 			KnowledgeCatalog.GrantKnowledge(ItemType, KnowledgeType.Effects);
 		}
@@ -39,7 +39,7 @@ public class Item
 			tag.OnAttack(instigator, this, target);
 		}
 		
-		if (instigator.Faction == Faction.Player)
+		if (instigator.Faction == Faction.Ally)
 		{
 			KnowledgeCatalog.GrantKnowledge(ItemType, KnowledgeType.MeleeDamage);
 		}
@@ -60,7 +60,7 @@ public class Item
 			tag.OnPickup(holder, this);
 		}
 		
-		if (holder.Faction == Faction.Player)
+		if (holder.Faction == Faction.Ally)
 		{
 			KnowledgeCatalog.GrantKnowledge(ItemType, KnowledgeType.Description);
 			KnowledgeCatalog.GrantKnowledge(ItemType, KnowledgeType.Tags);

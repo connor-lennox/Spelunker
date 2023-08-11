@@ -8,3 +8,4 @@ Spiky Shield    ; s     ; Green             ; 3             ; 200   ; SELF      
 Cursed Sword    ; c     ; Red               ; 9             ; 500   ; SELF          ; 0     ; ADMIRE        ; DRAINING 2
 Astral Pearl    ; p     ; MediumTurquoise   ; 1             ; 1000  ; TILE          ; 6     ; BLINK         ; CONSUMABLE
 Magic Lamp      ; l     ; Khaki             ; 1             ; 1000  ; TILE          ; 1     ; SUMMON GENIE  ; CONSUMABLE
+Priest Crook    ; ?     ; Peru              ; 3             ; 50    ; TILE          ; 2     ; CONVERT       ; CONSUMABLE

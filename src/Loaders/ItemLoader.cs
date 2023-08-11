@@ -69,6 +69,10 @@ public class ItemLoader : BaseLoader<ItemType>
 					// SUMMON <actor type>
 					effects.Add(new SummonItemEffect(ActorType.Get(tokens[idx++])));
 					break;
+				case "CONVERT":
+					// CONVERT
+					effects.Add(new ConvertItemEffect());
+					break;
 				case "ADMIRE":
 					effects.Add(new AdmireItemEffect());
 					break;
