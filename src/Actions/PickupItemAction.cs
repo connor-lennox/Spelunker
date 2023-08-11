@@ -14,7 +14,7 @@ public class PickupItemAction : PositionalAction
 		var item = new Item(droppedItem.ItemType);
 		if (instigator.Inventory.AddItem(item))
 		{
-			Logger.Log($"You pick up the {droppedItem.ItemType.Name}.");
+			Logger.Log($"{instigator.ActorType.Name} picks up the {droppedItem.ItemType.Name}.");
 			instigator.World!.RemoveItem(droppedItem);
 			item.OnPickup(instigator);
 			return true;

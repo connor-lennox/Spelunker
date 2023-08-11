@@ -9,8 +9,14 @@ public class ChargerAgent : BaseAgent
 		{
 			return new WaitAction();
 		}
+
+		// Try to pick up an item we run over
+		if (Actor.Inventory.HeldItem == null && Actor.World.ItemAtPoint(Actor.Position) != null)
+		{
+			return new PickupItemAction(Actor.Position);
+		}
 		
-		var target = FindPlayer();
+		var target = FindNearestTarget();
 		var dist = Math.Abs(Actor.Position.X - target.Position.X) + Math.Abs(Actor.Position.Y - target.Position.Y);
 
 		if (dist <= 1)

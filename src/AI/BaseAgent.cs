@@ -11,6 +11,12 @@ public abstract class BaseAgent
 		return Actor.World.Player;
 	}
 
+	protected Actor FindNearestTarget()
+	{
+		return Actor.World.Actors.Where(a => a.Faction != Actor.Faction)
+			.MinBy(a => a.Position.SqDistance(Actor.Position));
+	}
+
 	protected List<Point> FindPath(Point target)
 	{
 		return Pathfinder.GetPath(
