@@ -93,6 +93,7 @@ public class Actor : GameObject
 		return new List<string>
 		{
 			ActorType.Name,
+			Faction.ToString(),
 			$"HP: {Health}/{ActorType.MaxHealth}",
 			$"Holding: {Inventory.HeldItem?.ItemType.Name ?? "Nothing"}"
 		};
